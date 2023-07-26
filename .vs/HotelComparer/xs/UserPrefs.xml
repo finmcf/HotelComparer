@@ -1,6 +1,8 @@
 ﻿<Properties StartupConfiguration="{2CEB5724-2AEE-4E54-A412-365401AC830B}|Default">
-  <MonoDevelop.Ide.ItemProperties.HotelComparer PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.HotelComparer PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
@@ -9,13 +11,18 @@
       <File FileName="Models/HotelSearchResult.cs" />
       <File FileName="Program.cs" />
       <File FileName="HotelComparer.csproj" />
-      <File FileName="Controllers/HotelsController.cs" Line="23" Column="10" />
+      <File FileName="Controllers/HotelsController.cs" Line="1" Column="1" />
+      <File FileName="Models/HotelSearchRequest.cs" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="HotelComparer" expanded="True">
-            <Node name="HotelComparer">
+          <Node name="HotelComparer">
+            <Node name="HotelComparer" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="FrameworkReferences" expanded="True" />
+                <Node name="PackageDependencies" expanded="True" />
+              </Node>
               <Node name="Controllers" expanded="True">
                 <Node name="HotelsController.cs" selected="True" />
               </Node>
@@ -26,6 +33,4 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
