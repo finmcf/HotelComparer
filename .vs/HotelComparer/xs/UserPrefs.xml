@@ -1,32 +1,35 @@
 ﻿<Properties StartupConfiguration="{2CEB5724-2AEE-4E54-A412-365401AC830B}|Default">
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.HotelComparer PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/HotelsController.cs">
     <Files>
-      <File FileName="Models/HotelSearchResult.cs" />
-      <File FileName="Program.cs" />
-      <File FileName="HotelComparer.csproj" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+      <File FileName="HotelComparer.csproj" Line="6" Column="28" />
       <File FileName="Controllers/HotelsController.cs" Line="1" Column="1" />
-      <File FileName="Models/HotelSearchRequest.cs" />
+      <File FileName="Models/HotelSearchRequest.cs" Line="17" Column="1" />
+      <File FileName="Properties/launchSettings.json" Line="1" Column="1" />
+      <File FileName="Models/HotelBookingOption.cs" Line="13" Column="1" />
+      <File FileName="Models/HotelSearchResult.cs" Line="14" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="HotelComparer">
-            <Node name="HotelComparer" expanded="True">
+            <Node name="HotelComparer">
               <Node name="Dependencies" expanded="True">
                 <Node name="FrameworkReferences" expanded="True" />
                 <Node name="PackageDependencies" expanded="True" />
               </Node>
-              <Node name="Controllers" expanded="True">
-                <Node name="HotelsController.cs" selected="True" />
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models">
+                <Node name="HotelSearchResult.cs" selected="True" />
               </Node>
-              <Node name="Models" expanded="True" />
+              <Node name="Properties" expanded="True" />
             </Node>
           </Node>
         </State>

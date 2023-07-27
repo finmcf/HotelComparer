@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace HotelPriceComparer.Models
 {
     public class HotelSearchResult
     {
-        public List<HotelBookingOption> CheapestCombination { get; set; } = new List<HotelBookingOption>();
-        public decimal TotalPrice { get; set; }
-    }
+        public List<HotelBookingOption> Results { get; set; } = new List<HotelBookingOption>();
 
-    public class HotelBookingOption
-    {
-        public DateTime CheckIn { get; set; }
-        public DateTime CheckOut { get; set; }
-        public decimal Price { get; set; }
+        public decimal TotalPrice
+        {
+            get { return Results.Sum(result => result.Price); }
+        }
     }
 }

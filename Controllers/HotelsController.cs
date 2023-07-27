@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -30,15 +31,31 @@ namespace HotelPriceComparer.Controllers
             // Get all possible date combinations for the given range
             var dateCombinations = GetDateCombinations(request.StartDate, request.EndDate);
 
-            foreach (var dates in dateCombinations)
+            foreach (var dateCombination in dateCombinations)
             {
-                // Call the Amadeus API for each combination
-                var result = await SearchAmadeusHotels(request.Location, dates.Item1, dates.Item2);
+                var bookingOptionForCombination = new HotelSearchResult();
 
-                // If this combination is cheaper than the current cheapest, replace it
-                if (result != null && result.TotalPrice < cheapestBooking.TotalPrice)
+                foreach (var dates in dateCombination)
                 {
-                    cheapestBooking = result;
+                    // Call the Amadeus API for each date
+                    var result = await SearchAmadeusHotels(request.Location, dates.Item1, dates.Item2);
+
+                    if (result != null)
+                    {
+                        var bookingOption = new HotelBookingOption
+                        {
+                            HotelName = result.HotelName, // You would need to fetch hotel name from API response
+                            CheckInDate = dates.Item1,
+                            CheckOutDate = dates.Item2,
+                            Price = result.TotalPrice
+                        };
+                        bookingOptionForCombination.Results.Add(bookingOption);
+                    }
+                }
+
+                if (bookingOptionForCombination.TotalPrice < cheapestBooking.TotalPrice)
+                {
+                    cheapestBooking = bookingOptionForCombination;
                 }
             }
 
@@ -51,7 +68,7 @@ namespace HotelPriceComparer.Controllers
             return cheapestBooking;
         }
 
-        private List<Tuple<DateTime, DateTime>> GetDateCombinations(DateTime start, DateTime end)
+        private List<List<Tuple<DateTime, DateTime>>> GetDateCombinations(DateTime start, DateTime end)
         {
             // This method should return all possible combinations of dates within the given range
             throw new NotImplementedException();
@@ -76,7 +93,6 @@ namespace HotelPriceComparer.Controllers
                 var responseStream = await response.Content.ReadAsStreamAsync();
                 var searchResult = await JsonSerializer.DeserializeAsync<HotelSearchResult>(responseStream);
 
-                // Here, you might want to do additional processing, e.g. to calculate the total price.
                 return searchResult;
             }
             else
