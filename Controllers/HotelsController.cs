@@ -26,7 +26,7 @@ namespace HotelPriceComparer.Controllers
         [HttpPost("search")]
         public async Task<ActionResult<HotelSearchResult>> Post(HotelSearchRequest request)
         {
-            var cheapestBooking = new HotelSearchResult { TotalPrice = decimal.MaxValue };
+            var cheapestBooking = new HotelSearchResult();
 
             // Get all possible date combinations for the given range
             var dateCombinations = GetDateCombinations(request.StartDate, request.EndDate);
@@ -53,13 +53,13 @@ namespace HotelPriceComparer.Controllers
                     }
                 }
 
-                if (bookingOptionForCombination.TotalPrice < cheapestBooking.TotalPrice)
+                if (bookingOptionForCombination.Results.Any() && bookingOptionForCombination.TotalPrice < cheapestBooking.TotalPrice)
                 {
                     cheapestBooking = bookingOptionForCombination;
                 }
             }
 
-            if (cheapestBooking.TotalPrice == decimal.MaxValue)
+            if (!cheapestBooking.Results.Any())
             {
                 // No valid result was found, return an appropriate response
                 return NotFound("No valid hotel booking option was found.");
