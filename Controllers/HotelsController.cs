@@ -28,6 +28,9 @@ namespace HotelPriceComparer.Controllers
         {
             var cheapestBooking = new HotelSearchResult();
 
+            // Get hotel IDs from Amadeus API
+            var hotelIds = await GetHotelIds(request.Location);
+
             // Get all possible date combinations for the given range
             var dateCombinations = GetDateCombinations(request.StartDate, request.EndDate);
 
@@ -38,7 +41,7 @@ namespace HotelPriceComparer.Controllers
                 foreach (var dates in dateCombination)
                 {
                     // Call the Amadeus API for each date
-                    var result = await SearchAmadeusHotels(request.Location, dates.Item1, dates.Item2);
+                    var result = await SearchAmadeusHotels(request.Location, dates.Item1, dates.Item2, hotelIds);
 
                     if (result != null)
                     {
@@ -74,13 +77,39 @@ namespace HotelPriceComparer.Controllers
             throw new NotImplementedException();
         }
 
-        private async Task<HotelSearchResult?> SearchAmadeusHotels(string location, DateTime checkInDate, DateTime checkOutDate)
+        private async Task<string[]> GetHotelIds(string location)
+        {
+            // Replace this with the correct URL and parameters for the Hotel List API
+            var requestUrl = $"https://api.amadeus.com/v1/reference-data/locations/hotels?cityCode={location}";
+
+            var client = _clientFactory.CreateClient();
+            var response = await client.GetAsync(requestUrl);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseStream = await response.Content.ReadAsStreamAsync();
+                // Replace "HotelListResponse" with the correct model for the response from the Hotel List API
+                var hotelListResponse = await JsonSerializer.DeserializeAsync<HotelListResponse>(responseStream);
+                // Replace "HotelId" with the correct property name for the hotel ID in the Hotel List API response
+                return hotelListResponse.data.Select(hotel => hotel.HotelId).ToArray();
+            }
+            else
+            {
+                // Handle errors here
+                throw new Exception($"Error fetching data from Amadeus Hotel List API: {response.StatusCode}");
+            }
+        }
+
+        private async Task<HotelSearchResult?> SearchAmadeusHotels(string location, DateTime checkInDate, DateTime checkOutDate, string[] hotelIds)
         {
             var apiKey = _configuration["Amadeus:ApiKey"];
             var apiSecret = _configuration["Amadeus:ApiSecret"];
 
+            // Convert the hotelIds array to a comma separated string
+            var hotelIdsStr = string.Join(",", hotelIds);
+
             var request = new HttpRequestMessage(HttpMethod.Get,
-                $"https://api.amadeus.com/v2/shopping/hotel-offers?cityCode={location}&checkInDate={checkInDate:yyyy-MM-dd}&checkOutDate={checkOutDate:yyyy-MM-dd}");
+                $"https://api.amadeus.com/v2/shopping/hotel-offers?hotelIds={hotelIdsStr}&checkInDate={checkInDate:yyyy-MM-dd}&checkOutDate={checkOutDate:yyyy-MM-dd}");
 
             request.Headers.Add("Authorization", $"Bearer {apiKey}:{apiSecret}");
             request.Headers.Add("Accept", "application/json");
