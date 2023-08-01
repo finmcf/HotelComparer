@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using HotelComparer.Models;
 
 namespace HotelComparer.Services
@@ -20,6 +21,11 @@ namespace HotelComparer.Services
                 throw new ArgumentNullException(nameof(request.CheckOutDate), "Check-out date cannot be null.");
             }
 
+            if (request.CheckInDate.Value.Date < DateTime.UtcNow.Date)
+            {
+                throw new ArgumentException("Check-in date cannot be in the past.");
+            }
+
             if (request.CheckInDate.Value >= request.CheckOutDate.Value)
             {
                 throw new ArgumentException("Check-in date must be before Check-out date.");
@@ -31,7 +37,7 @@ namespace HotelComparer.Services
 
             foreach (var dateRange in dateRanges)
             {
-                var url = $"{AMADEUS_API_URL}?hotelIds={hotels}&adults={request.Adults}&checkInDate={dateRange.Item1:yyyy-MM-dd}&checkOutDate={dateRange.Item2:yyyy-MM-dd}&countryOfResidence={request.CountryOfResidence}&roomQuantity={request.RoomQuantity}&priceRange={request.PriceRange}&currency={request.Currency}&paymentPolicy={request.PaymentPolicy}&boardType={request.BoardType}&includeClosed={request.IncludeClosed.ToString().ToLower()}&bestRateOnly={request.BestRateOnly.ToString().ToLower()}&lang={request.Language}";
+                var url = $"{AMADEUS_API_URL}?hotelIds={hotels}&adults={request.Adults}&checkInDate={dateRange.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&checkOutDate={dateRange.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&countryOfResidence={request.CountryOfResidence}&roomQuantity={request.RoomQuantity}&priceRange={request.PriceRange}&currency={request.Currency}&paymentPolicy={request.PaymentPolicy}&boardType={request.BoardType}&includeClosed={request.IncludeClosed.ToString().ToLower()}&bestRateOnly={request.BestRateOnly.ToString().ToLower()}&lang={request.Language}";
                 urls.Add(url);
             }
 
