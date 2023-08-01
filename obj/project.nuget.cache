@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "E0LEmGFPsoU3ZHpLrFv58cyN+d5CFwTkA8X+ahL5iTbSVwJY89kele/MAD841IvF+xFS+vyw2hbIUk4YRPEOlA==",
+  "dgSpecHash": "tbiG2e9pP04CR+Gykj/LSJ2I48/IDkmEvuRfRuM6TnbnD8p22M8shOgdq63F9jq2U/RkG/VaEIbT6W9In8qL0A==",
   "success": true,
   "projectFilePath": "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/HotelComparer.csproj",
   "expectedPackageFiles": [
@@ -9,10 +9,7 @@
     "/Users/finlay/.nuget/packages/swashbuckle.aspnetcore/6.5.0/swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "/Users/finlay/.nuget/packages/swashbuckle.aspnetcore.swagger/6.5.0/swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "/Users/finlay/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.5.0/swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
-    "/Users/finlay/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.5.0/swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512",
-    "/Users/finlay/.nuget/packages/microsoft.aspnetcore.app.ref/6.0.20/microsoft.aspnetcore.app.ref.6.0.20.nupkg.sha512",
-    "/Users/finlay/.nuget/packages/microsoft.netcore.app.host.osx-arm64/6.0.20/microsoft.netcore.app.host.osx-arm64.6.0.20.nupkg.sha512",
-    "/Users/finlay/.nuget/packages/microsoft.netcore.app.ref/6.0.20/microsoft.netcore.app.ref.6.0.20.nupkg.sha512"
+    "/Users/finlay/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.5.0/swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
   ],
   "logs": []
 }
