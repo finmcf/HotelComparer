@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using HotelComparer.Models;
 using HotelComparer.Services;
+using System.Threading.Tasks;
 
 namespace HotelComparer.Controllers
 {
@@ -12,15 +13,17 @@ namespace HotelComparer.Controllers
     public class HotelsController : ControllerBase
     {
         private readonly IAmadeusApiService _amadeusApiService;
+        private readonly IAmadeusApiTokenService _amadeusApiTokenService;
 
-        public HotelsController(IAmadeusApiService amadeusApiService)
+        public HotelsController(IAmadeusApiService amadeusApiService, IAmadeusApiTokenService amadeusApiTokenService)
         {
             _amadeusApiService = amadeusApiService;
+            _amadeusApiTokenService = amadeusApiTokenService;
         }
 
         // GET: api/Hotels
         [HttpGet]
-        public ActionResult<IEnumerable<string>> GetHotelSearchRequest([FromQuery] HotelSearchRequest request)
+        public async Task<ActionResult<IEnumerable<string>>> GetHotelSearchRequest([FromQuery] HotelSearchRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -29,6 +32,9 @@ namespace HotelComparer.Controllers
 
             try
             {
+                string token = await _amadeusApiTokenService.GetAccessTokenAsync();
+                Console.WriteLine($"Access token: {token}");
+
                 var urls = _amadeusApiService.GenerateUrls(request);
                 return Ok(urls);
             }

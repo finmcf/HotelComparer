@@ -30,3 +30,4 @@
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/obj/Debug/net7.0/HotelComparer.pdb
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/obj/Debug/net7.0/HotelComparer.genruntimeconfig.cache
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/obj/Debug/net7.0/ref/HotelComparer.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Newtonsoft.Json.dll

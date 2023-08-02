@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
+builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>(); // Add this line
 
 var app = builder.Build();
 
