@@ -6,30 +6,29 @@
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Controllers/HotelsController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Services/AmadeusApiTokenService.cs">
     <Files>
-      <File FileName="Program.cs" Line="1" Column="1" />
-      <File FileName="HotelComparer.csproj" Line="6" Column="28" />
-      <File FileName="Controllers/HotelsController.cs" Line="1" Column="1" />
-      <File FileName="Models/HotelSearchRequest.cs" Line="17" Column="1" />
-      <File FileName="Properties/launchSettings.json" Line="1" Column="1" />
-      <File FileName="Models/HotelBookingOption.cs" Line="13" Column="1" />
-      <File FileName="Models/HotelSearchResult.cs" Line="14" Column="6" />
+      <File FileName="Program.cs" Line="27" Column="1" />
+      <File FileName="HotelComparer.csproj" Line="26" Column="1" />
+      <File FileName="Controllers/HotelsController.cs" Line="31" Column="14" />
+      <File FileName="Models/HotelSearchRequest.cs" Line="24" Column="13" />
+      <File FileName="Models/HotelOffersResponse.cs" Line="24" Column="25" />
+      <File FileName="Models/HotelOffer.cs" Line="1" Column="1" />
+      <File FileName="Services/IAmadeusApiService.cs" Line="12" Column="1" />
+      <File FileName="Services/AmadeusApiService.cs" Line="28" Column="1" />
+      <File FileName="appsettings.json" Line="1" Column="1" />
+      <File FileName="Services/IAmadeusApiTokenService.cs" Line="11" Column="1" />
+      <File FileName="Models/AmadeusApiTokenResponse.cs" Line="18" Column="1" />
+      <File FileName="Services/AmadeusApiTokenService.cs" Line="13" Column="56" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="HotelComparer">
-            <Node name="HotelComparer">
-              <Node name="Dependencies" expanded="True">
-                <Node name="FrameworkReferences" expanded="True" />
-                <Node name="PackageDependencies" expanded="True" />
-              </Node>
+            <Node name="HotelComparer" expanded="True">
               <Node name="Controllers" expanded="True" />
-              <Node name="Models">
-                <Node name="HotelSearchResult.cs" selected="True" />
-              </Node>
-              <Node name="Properties" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Services" expanded="True" />
             </Node>
           </Node>
         </State>
