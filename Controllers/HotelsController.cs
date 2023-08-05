@@ -35,7 +35,7 @@ namespace HotelComparer.Controllers
                 string token = await _amadeusApiTokenService.GetAccessTokenAsync();
                 Console.WriteLine($"Access token: {token}");
 
-                var urls = _amadeusApiService.GenerateUrls(request);
+                var urls = await _amadeusApiService.GenerateUrls(request); // <-- Here's the change.
                 return Ok(urls);
             }
             catch (Exception ex)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Threading.Tasks;
 using HotelComparer.Models;
 
 namespace HotelComparer.Services
@@ -8,9 +9,19 @@ namespace HotelComparer.Services
     public class AmadeusApiService : IAmadeusApiService
     {
         private const string AMADEUS_API_URL = "https://test.api.amadeus.com/v3/shopping/hotel-offers";
+        private readonly IAmadeusApiTokenService _amadeusApiTokenService;
 
-        public IEnumerable<string> GenerateUrls(HotelSearchRequest request)
+        public AmadeusApiService(IAmadeusApiTokenService amadeusApiTokenService)
         {
+            _amadeusApiTokenService = amadeusApiTokenService;
+        }
+
+        public async Task<IEnumerable<string>> GenerateUrls(HotelSearchRequest request)
+        {
+            string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
+
+            
+
             if (!request.CheckInDate.HasValue)
             {
                 throw new ArgumentNullException(nameof(request.CheckInDate), "Check-in date cannot be null.");
@@ -37,7 +48,7 @@ namespace HotelComparer.Services
 
             foreach (var dateRange in dateRanges)
             {
-                var url = $"{AMADEUS_API_URL}?hotelIds={hotels}&adults={request.Adults}&checkInDate={dateRange.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&checkOutDate={dateRange.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&countryOfResidence={request.CountryOfResidence}&roomQuantity={request.RoomQuantity}&priceRange={request.PriceRange}&currency={request.Currency}&paymentPolicy={request.PaymentPolicy}&boardType={request.BoardType}&includeClosed={request.IncludeClosed.ToString().ToLower()}&bestRateOnly={request.BestRateOnly.ToString().ToLower()}&lang={request.Language}";
+                var url = $"{AMADEUS_API_URL}?hotelIds={hotels}&adults={request.Adults}&checkInDate={dateRange.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&checkOutDate={dateRange.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&countryOfResidence={request.CountryOfResidence}&roomQuantity={request.RoomQuantity}&priceRange={request.PriceRange}&currency={request.Currency}&paymentPolicy={request.PaymentPolicy}&boardType={request.BoardType}&includeClosed={request.IncludeClosed.ToString().ToLower()}&bestRateOnly={request.BestRateOnly.ToString().ToLower()}&lang={request.Language}&access_token={accessToken}";
                 urls.Add(url);
             }
 

@@ -1,38 +1,38 @@
 ﻿<Properties StartupConfiguration="{2CEB5724-2AEE-4E54-A412-365401AC830B}|Default">
-  <MonoDevelop.Ide.ItemProperties.HotelComparer PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.HotelComparer PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Services/AmadeusApiTokenService.cs">
     <Files>
-      <File FileName="Program.cs" Line="27" Column="1" />
-      <File FileName="HotelComparer.csproj" Line="26" Column="1" />
-      <File FileName="Controllers/HotelsController.cs" Line="31" Column="14" />
-      <File FileName="Models/HotelSearchRequest.cs" Line="24" Column="13" />
-      <File FileName="Models/HotelOffersResponse.cs" Line="24" Column="25" />
-      <File FileName="Models/HotelOffer.cs" Line="1" Column="1" />
-      <File FileName="Services/IAmadeusApiService.cs" Line="12" Column="1" />
-      <File FileName="Services/AmadeusApiService.cs" Line="28" Column="1" />
-      <File FileName="appsettings.json" Line="1" Column="1" />
-      <File FileName="Services/IAmadeusApiTokenService.cs" Line="11" Column="1" />
-      <File FileName="Models/AmadeusApiTokenResponse.cs" Line="18" Column="1" />
-      <File FileName="Services/AmadeusApiTokenService.cs" Line="13" Column="56" />
+      <File FileName="Program.cs" />
+      <File FileName="HotelComparer.csproj" />
+      <File FileName="Controllers/HotelsController.cs" />
+      <File FileName="Models/HotelSearchRequest.cs" />
+      <File FileName="Services/IAmadeusApiService.cs" />
+      <File FileName="Services/AmadeusApiService.cs" Line="1" Column="1" />
+      <File FileName="appsettings.json" />
+      <File FileName="Services/IAmadeusApiTokenService.cs" />
+      <File FileName="Models/AmadeusApiTokenResponse.cs" />
+      <File FileName="Services/AmadeusApiTokenService.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="HotelComparer">
-            <Node name="HotelComparer" expanded="True">
+          <Node name="HotelComparer" expanded="True">
+            <Node name="HotelComparer">
               <Node name="Controllers" expanded="True" />
               <Node name="Models" expanded="True" />
-              <Node name="Services" expanded="True" />
+              <Node name="Services" expanded="True">
+                <Node name="AmadeusApiTokenService.cs" selected="True" />
+              </Node>
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>
