@@ -13,12 +13,10 @@ namespace HotelComparer.Controllers
     public class HotelsController : ControllerBase
     {
         private readonly IAmadeusApiService _amadeusApiService;
-        private readonly IAmadeusApiTokenService _amadeusApiTokenService;
 
-        public HotelsController(IAmadeusApiService amadeusApiService, IAmadeusApiTokenService amadeusApiTokenService)
+        public HotelsController(IAmadeusApiService amadeusApiService)
         {
             _amadeusApiService = amadeusApiService;
-            _amadeusApiTokenService = amadeusApiTokenService;
         }
 
         // GET: api/Hotels
@@ -32,10 +30,7 @@ namespace HotelComparer.Controllers
 
             try
             {
-                string token = await _amadeusApiTokenService.GetAccessTokenAsync();
-                Console.WriteLine($"Access token: {token}");
-
-                var urls = await _amadeusApiService.GenerateUrls(request); // <-- Here's the change.
+                var urls = await _amadeusApiService.GenerateUrls(request);
                 return Ok(urls);
             }
             catch (Exception ex)

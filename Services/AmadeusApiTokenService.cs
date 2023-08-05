@@ -14,6 +14,9 @@ namespace HotelComparer.Services
         private const string TokenEndpoint = "https://test.api.amadeus.com/v1/security/oauth2/token";
         private const string GrantType = "client_credentials";
 
+        private string _accessToken = string.Empty;
+        private DateTime _expiryTime = DateTime.MinValue;
+
         public AmadeusApiTokenService(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -21,6 +24,11 @@ namespace HotelComparer.Services
 
         public async Task<string> GetAccessTokenAsync()
         {
+            if (!string.IsNullOrEmpty(_accessToken) && _expiryTime > DateTime.UtcNow.AddSeconds(100))
+            {
+                return _accessToken;
+            }
+
             using var client = new HttpClient();
 
             var clientId = _configuration["Amadeus:ApiKey"] ?? string.Empty;
@@ -53,12 +61,20 @@ namespace HotelComparer.Services
             var responseBody = await response.Content.ReadAsStringAsync();
             var tokenResponse = JsonConvert.DeserializeObject<AmadeusApiTokenResponse>(responseBody);
 
+            if (tokenResponse == null)
+            {
+                Console.WriteLine("Failed to deserialize the token response.");
+                return string.Empty;
+            }
+
             Console.WriteLine($"Response body: {responseBody}");
 
-            var accessToken = tokenResponse?.AccessToken ?? string.Empty;
-            Console.WriteLine($"Access token: {accessToken}");
+            _accessToken = tokenResponse.AccessToken;
+            _expiryTime = DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn);
 
-            return accessToken;
+            Console.WriteLine($"Access token: {_accessToken}");
+
+            return _accessToken;
         }
     }
 }

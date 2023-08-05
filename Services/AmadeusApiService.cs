@@ -20,7 +20,10 @@ namespace HotelComparer.Services
         {
             string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
 
-            
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                throw new ArgumentException("Failed to obtain an access token.");
+            }
 
             if (!request.CheckInDate.HasValue)
             {
