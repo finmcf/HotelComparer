@@ -7,8 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
+builder.Services.AddMemoryCache(); // Add this line
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
-builder.Services.AddSingleton<IAmadeusApiTokenService, AmadeusApiTokenService>(); // Change to AddSingleton
+builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>();
 
 var app = builder.Build();
 

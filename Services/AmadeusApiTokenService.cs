@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using HotelComparer.Models;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -11,34 +12,28 @@ namespace HotelComparer.Services
     public class AmadeusApiTokenService : IAmadeusApiTokenService
     {
         private readonly IConfiguration _configuration;
+        private readonly IMemoryCache _memoryCache;
         private const string TokenEndpoint = "https://test.api.amadeus.com/v1/security/oauth2/token";
         private const string GrantType = "client_credentials";
+        private const string CacheKey = "AmadeusApiToken";
 
-        private string _accessToken = string.Empty;
-        private DateTime _expiryTime = DateTime.MinValue;
-
-        public AmadeusApiTokenService(IConfiguration configuration)
+        public AmadeusApiTokenService(IConfiguration configuration, IMemoryCache memoryCache)
         {
             _configuration = configuration;
+            _memoryCache = memoryCache;
         }
 
         public async Task<string> GetAccessTokenAsync()
         {
-            if (!string.IsNullOrEmpty(_accessToken) && _expiryTime > DateTime.UtcNow.AddSeconds(100))
+            if (_memoryCache.TryGetValue(CacheKey, out string? token) && !string.IsNullOrEmpty(token))
             {
-                return _accessToken;
+                return token;
             }
 
             using var client = new HttpClient();
 
-            var clientId = _configuration["Amadeus:ApiKey"] ?? string.Empty;
-            var clientSecret = _configuration["Amadeus:ApiSecret"] ?? string.Empty;
-
-            if (string.IsNullOrEmpty(clientId) || string.IsNullOrEmpty(clientSecret))
-            {
-                Console.WriteLine("Client Id or Client Secret are not provided.");
-                return string.Empty;
-            }
+            var clientId = _configuration["Amadeus:ApiKey"] ?? throw new Exception("Amadeus:ApiKey is not set in the configuration");
+            var clientSecret = _configuration["Amadeus:ApiSecret"] ?? throw new Exception("Amadeus:ApiSecret is not set in the configuration");
 
             var request = new HttpRequestMessage(HttpMethod.Post, TokenEndpoint)
             {
@@ -54,8 +49,7 @@ namespace HotelComparer.Services
 
             if (!response.IsSuccessStatusCode)
             {
-                Console.WriteLine($"Request to Amadeus API failed with status code: {response.StatusCode}");
-                return string.Empty;
+                throw new Exception($"Request to Amadeus API failed with status code: {response.StatusCode}");
             }
 
             var responseBody = await response.Content.ReadAsStringAsync();
@@ -63,18 +57,20 @@ namespace HotelComparer.Services
 
             if (tokenResponse == null)
             {
-                Console.WriteLine("Failed to deserialize the token response.");
-                return string.Empty;
+                throw new Exception("Failed to deserialize the token response.");
             }
 
             Console.WriteLine($"Response body: {responseBody}");
 
-            _accessToken = tokenResponse.AccessToken;
-            _expiryTime = DateTime.UtcNow.AddSeconds(tokenResponse.ExpiresIn);
+            var cacheEntryOptions = new MemoryCacheEntryOptions()
+                // Keep in cache for this time, reset time if accessed.
+                .SetAbsoluteExpiration(TimeSpan.FromSeconds(tokenResponse.ExpiresIn));
 
-            Console.WriteLine($"Access token: {_accessToken}");
+            _memoryCache.Set(CacheKey, tokenResponse.AccessToken, cacheEntryOptions);
 
-            return _accessToken;
+            Console.WriteLine($"Access token: {tokenResponse.AccessToken}");
+
+            return tokenResponse.AccessToken;
         }
     }
 }
