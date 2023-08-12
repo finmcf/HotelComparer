@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net.Http;
 using System.Threading.Tasks;
 using HotelComparer.Models;
 
@@ -16,15 +17,39 @@ namespace HotelComparer.Services
             _amadeusApiTokenService = amadeusApiTokenService;
         }
 
-        public async Task<IEnumerable<string>> GenerateUrls(HotelSearchRequest request)
+        public async Task<IEnumerable<string>> GetAmadeusResponses(HotelSearchRequest request)
         {
-            string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
+            var urls = GenerateUrls(request);
+            var responses = new List<string>();
 
-            if (string.IsNullOrEmpty(accessToken))
+            foreach (var url in urls)
             {
-                throw new ArgumentException("Failed to obtain an access token.");
+                string response = await SendRequestToAmadeusAsync(url);
+                responses.Add(response);
             }
 
+            return responses;
+        }
+
+        private IEnumerable<string> GenerateUrls(HotelSearchRequest request)
+        {
+            ValidateRequestDates(request);
+
+            var dateRanges = GenerateDateRanges(request.CheckInDate.Value, request.CheckOutDate.Value);
+            var urls = new List<string>();
+            string hotels = string.Join(",", request.HotelIds);
+
+            foreach (var dateRange in dateRanges)
+            {
+                var url = $"{AMADEUS_API_URL}?hotelIds={hotels}&adults={request.Adults}&checkInDate={dateRange.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&checkOutDate={dateRange.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&countryOfResidence={request.CountryOfResidence}&roomQuantity={request.RoomQuantity}&priceRange={request.PriceRange}&currency={request.Currency}&paymentPolicy={request.PaymentPolicy}&boardType={request.BoardType}&includeClosed={request.IncludeClosed.ToString().ToLower()}&bestRateOnly={request.BestRateOnly.ToString().ToLower()}&lang={request.Language}";
+                urls.Add(url);
+            }
+
+            return urls;
+        }
+
+        private void ValidateRequestDates(HotelSearchRequest request)
+        {
             if (!request.CheckInDate.HasValue)
             {
                 throw new ArgumentNullException(nameof(request.CheckInDate), "Check-in date cannot be null.");
@@ -44,18 +69,6 @@ namespace HotelComparer.Services
             {
                 throw new ArgumentException("Check-in date must be before Check-out date.");
             }
-
-            var dateRanges = GenerateDateRanges(request.CheckInDate.Value, request.CheckOutDate.Value);
-            var urls = new List<string>();
-            string hotels = string.Join(",", request.HotelIds);
-
-            foreach (var dateRange in dateRanges)
-            {
-                var url = $"{AMADEUS_API_URL}?hotelIds={hotels}&adults={request.Adults}&checkInDate={dateRange.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&checkOutDate={dateRange.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&countryOfResidence={request.CountryOfResidence}&roomQuantity={request.RoomQuantity}&priceRange={request.PriceRange}&currency={request.Currency}&paymentPolicy={request.PaymentPolicy}&boardType={request.BoardType}&includeClosed={request.IncludeClosed.ToString().ToLower()}&bestRateOnly={request.BestRateOnly.ToString().ToLower()}&lang={request.Language}&access_token={accessToken}";
-                urls.Add(url);
-            }
-
-            return urls;
         }
 
         private static List<Tuple<DateTime, DateTime>> GenerateDateRanges(DateTime checkInDate, DateTime checkOutDate)
@@ -71,6 +84,33 @@ namespace HotelComparer.Services
             }
 
             return dateRanges;
+        }
+
+        private async Task<string> SendRequestToAmadeusAsync(string url)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                // Get the access token
+                string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
+                if (string.IsNullOrEmpty(accessToken))
+                {
+                    throw new ArgumentException("Failed to obtain an access token.");
+                }
+
+                // Add the authorization header
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+
+                try
+                {
+                    HttpResponseMessage response = await client.GetAsync(url);
+                    response.EnsureSuccessStatusCode(); // Throw an exception if not a success code.
+                    return await response.Content.ReadAsStringAsync();
+                }
+                catch (HttpRequestException e)
+                {
+                    throw new Exception($"Request error for URL {url}: {e.Message}");
+                }
+            }
         }
     }
 }

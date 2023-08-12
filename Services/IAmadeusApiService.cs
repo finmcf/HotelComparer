@@ -6,6 +6,6 @@ namespace HotelComparer.Services
 {
     public interface IAmadeusApiService
     {
-        Task<IEnumerable<string>> GenerateUrls(HotelSearchRequest request);
+        Task<IEnumerable<string>> GetAmadeusResponses(HotelSearchRequest request);
     }
 }

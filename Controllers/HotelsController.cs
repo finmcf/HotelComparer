@@ -30,12 +30,12 @@ namespace HotelComparer.Controllers
 
             try
             {
-                var urls = await _amadeusApiService.GenerateUrls(request);
-                return Ok(urls);
+                var responses = await _amadeusApiService.GetAmadeusResponses(request);
+                return Ok(responses);
             }
             catch (Exception ex)
             {
-                // Log the exception here
+                // Ideally, you would log the exception here
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
         }
