@@ -7,9 +7,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddMemoryCache(); // Add this line
+builder.Services.AddMemoryCache(); // Existing line
+
+// Existing service registrations
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
 builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>();
+
+// New service registration
+builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 
 var app = builder.Build();
 

@@ -12,11 +12,11 @@ namespace HotelComparer.Controllers
     [ApiController]
     public class HotelsController : ControllerBase
     {
-        private readonly IAmadeusApiService _amadeusApiService;
+        private readonly IHotelDataService _hotelDataService;
 
-        public HotelsController(IAmadeusApiService amadeusApiService)
+        public HotelsController(IHotelDataService hotelDataService)
         {
-            _amadeusApiService = amadeusApiService;
+            _hotelDataService = hotelDataService;
         }
 
         // GET: api/Hotels
@@ -30,7 +30,7 @@ namespace HotelComparer.Controllers
 
             try
             {
-                var responses = await _amadeusApiService.GetAmadeusResponses(request);
+                var responses = await _hotelDataService.GetRawHotelDataAsync(request);
                 return Ok(responses);
             }
             catch (Exception ex)
