@@ -6,7 +6,6 @@ namespace HotelComparer.Services
 {
     public interface IHotelDataService
     {
-        Task<IEnumerable<string>> GetRawHotelDataAsync(HotelSearchRequest request);
-        Task<IEnumerable<Root>> GetDeserializedHotelDataAsync(HotelSearchRequest request);
+        Task<IEnumerable<HotelOfferData>> GetHotels(HotelSearchRequest request);
     }
 }

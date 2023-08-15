@@ -21,7 +21,7 @@ namespace HotelComparer.Controllers
 
         // GET: api/Hotels
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<string>>> GetHotelSearchRequest([FromQuery] HotelSearchRequest request)
+        public async Task<ActionResult<IEnumerable<HotelOfferData>>> GetHotels([FromQuery] HotelSearchRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -30,8 +30,8 @@ namespace HotelComparer.Controllers
 
             try
             {
-                var responses = await _hotelDataService.GetRawHotelDataAsync(request);
-                return Ok(responses);
+                var hotelOffers = await _hotelDataService.GetHotels(request);
+                return Ok(hotelOffers);
             }
             catch (Exception ex)
             {
