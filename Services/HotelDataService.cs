@@ -50,6 +50,9 @@ namespace HotelComparer.Services
             var responseObj = JsonConvert.DeserializeObject<AmadeusApiResponse>(jsonResponse);
             var conversionRate = Convert.ToDouble(responseObj.Dictionaries.CurrencyConversionLookupRates["GBP"].Rate);
 
+            var cultureInfo = new System.Globalization.CultureInfo("en-US");
+            cultureInfo.DateTimeFormat.Calendar = new System.Globalization.GregorianCalendar();
+
             return responseObj.Data.Select(data => new HotelOfferData
             {
                 Hotel = new HotelInfo
@@ -64,8 +67,8 @@ namespace HotelComparer.Services
                 Offers = data.Offers.Select(offer => new HotelOffer
                 {
                     Id = offer.Id,
-                    CheckInDate = DateTime.Parse(offer.CheckInDate),
-                    CheckOutDate = DateTime.Parse(offer.CheckOutDate),
+                    CheckInDate = DateTime.Parse(offer.CheckInDate, cultureInfo),
+                    CheckOutDate = DateTime.Parse(offer.CheckOutDate, cultureInfo),
                     Price = Convert.ToDouble(offer.Price.Base) * conversionRate,
                     Currency = responseObj.Dictionaries.CurrencyConversionLookupRates["GBP"].Target,
                     RoomType = offer.Room.TypeEstimated.Category,
