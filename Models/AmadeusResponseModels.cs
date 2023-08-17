@@ -6,14 +6,18 @@ namespace HotelComparer.Models
     public class HotelOfferData
     {
         public HotelInfo Hotel { get; set; }
+        public bool Available { get; set; }
         public List<HotelOffer> Offers { get; set; } = new List<HotelOffer>();
+        public string Self { get; set; }
     }
 
     public class HotelInfo
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string Type { get; set; }
+        public string HotelId { get; set; }
         public string ChainCode { get; set; }
+        public string DupeId { get; set; }
+        public string Name { get; set; }
         public string CityCode { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
@@ -24,67 +28,88 @@ namespace HotelComparer.Models
         public string Id { get; set; }
         public DateTime CheckInDate { get; set; }
         public DateTime CheckOutDate { get; set; }
-        public double Price { get; set; }
-        public string Currency { get; set; }
-        public string RoomType { get; set; }
-        public string BedType { get; set; }
-        public string Description { get; set; }
+        public string RateCode { get; set; }
+        public RateFamilyEstimated RateFamilyEstimated { get; set; }
+        public HotelRoom Room { get; set; }
+        public GuestInfo Guests { get; set; }
+        public HotelPrice Price { get; set; }
+        public PolicyInfo Policies { get; set; }
+        public string Self { get; set; }
     }
 
-    public class AmadeusApiResponse
+    public class RateFamilyEstimated
     {
-        public List<AmadeusHotelData> Data { get; set; }
-        public AmadeusDictionaries Dictionaries { get; set; }
+        public string Code { get; set; }
+        public string Type { get; set; }
     }
 
-    public class AmadeusHotelData
-    {
-        public AmadeusHotelInfo Hotel { get; set; }
-        public List<AmadeusOffer> Offers { get; set; }
-    }
-
-    public class AmadeusHotelInfo
-    {
-        public string HotelId { get; set; }
-        public string Name { get; set; }
-        public string ChainCode { get; set; }
-        public string CityCode { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
-    }
-
-    public class AmadeusOffer
-    {
-        public string Id { get; set; }
-        public string CheckInDate { get; set; }
-        public string CheckOutDate { get; set; }
-        public AmadeusRoom Room { get; set; }
-        public AmadeusPrice Price { get; set; }
-    }
-
-    public class AmadeusRoom
+    public class HotelRoom
     {
         public string Type { get; set; }
-        public AmadeusTypeEstimated TypeEstimated { get; set; }
-        public AmadeusDescription Description { get; set; }
+        public TypeEstimated TypeEstimated { get; set; }
+        public RoomDescription Description { get; set; }
     }
 
-    public class AmadeusTypeEstimated
+    public class TypeEstimated
     {
         public string Category { get; set; }
         public int Beds { get; set; }
         public string BedType { get; set; }
     }
 
-    public class AmadeusDescription
+    public class RoomDescription
     {
         public string Text { get; set; }
+        public string Lang { get; set; }
     }
 
-    public class AmadeusPrice
+    public class GuestInfo
+    {
+        public int Adults { get; set; }
+    }
+
+    public class HotelPrice
     {
         public string Currency { get; set; }
         public string Base { get; set; }
+        public string Total { get; set; }
+        public PriceVariations Variations { get; set; }
+    }
+
+    public class PriceVariations
+    {
+        public AveragePrice Average { get; set; }
+        public List<PriceChange> Changes { get; set; }
+    }
+
+    public class AveragePrice
+    {
+        public string Base { get; set; }
+    }
+
+    public class PriceChange
+    {
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Total { get; set; }
+    }
+
+    public class PolicyInfo
+    {
+        public List<CancellationPolicy> Cancellations { get; set; }
+        public string PaymentType { get; set; }
+    }
+
+    public class CancellationPolicy
+    {
+        public string Amount { get; set; }
+        public DateTime Deadline { get; set; }
+    }
+
+    public class AmadeusApiResponse
+    {
+        public List<HotelOfferData> Data { get; set; }
+        public AmadeusDictionaries Dictionaries { get; set; }
     }
 
     public class AmadeusDictionaries

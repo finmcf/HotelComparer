@@ -36,7 +36,7 @@ namespace HotelComparer.Services
             }
 
             // Group by hotel data
-            var groupedHotelOffers = allHotelsData.GroupBy(h => h.Hotel.Id).Select(group => new HotelOfferData
+            var groupedHotelOffers = allHotelsData.GroupBy(h => h.Hotel.HotelId).Select(group => new HotelOfferData
             {
                 Hotel = group.First().Hotel,
                 Offers = group.SelectMany(g => g.Offers).ToList()
@@ -57,7 +57,7 @@ namespace HotelComparer.Services
             {
                 Hotel = new HotelInfo
                 {
-                    Id = data.Hotel.HotelId,
+                    HotelId = data.Hotel.HotelId,
                     Name = data.Hotel.Name,
                     ChainCode = data.Hotel.ChainCode,
                     CityCode = data.Hotel.CityCode,
@@ -67,13 +67,22 @@ namespace HotelComparer.Services
                 Offers = data.Offers.Select(offer => new HotelOffer
                 {
                     Id = offer.Id,
-                    CheckInDate = DateTime.Parse(offer.CheckInDate, cultureInfo),
-                    CheckOutDate = DateTime.Parse(offer.CheckOutDate, cultureInfo),
-                    Price = Convert.ToDouble(offer.Price.Base) * conversionRate,
-                    Currency = responseObj.Dictionaries.CurrencyConversionLookupRates["GBP"].Target,
-                    RoomType = offer.Room.TypeEstimated.Category,
-                    BedType = offer.Room.TypeEstimated.BedType,
-                    Description = offer.Room.Description.Text
+                    CheckInDate = offer.CheckInDate,
+                    CheckOutDate = offer.CheckOutDate,
+                    Price = new HotelPrice
+                    {
+                        Base = (Convert.ToDouble(offer.Price.Base) * conversionRate).ToString(),
+                        Currency = responseObj.Dictionaries.CurrencyConversionLookupRates["GBP"].Target
+                    },
+                    Room = new HotelRoom
+                    {
+                        TypeEstimated = new TypeEstimated
+                        {
+                            Category = offer.Room.TypeEstimated.Category,
+                            BedType = offer.Room.TypeEstimated.BedType
+                        },
+                        Description = offer.Room.Description
+                    }
                 }).ToList()
             }).ToList();
         }
