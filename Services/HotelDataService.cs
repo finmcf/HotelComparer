@@ -39,7 +39,8 @@ namespace HotelComparer.Services
             var groupedHotelOffers = allHotelsData.GroupBy(h => h.Hotel.HotelId).Select(group => new HotelOfferData
             {
                 Hotel = group.First().Hotel,
-                Offers = group.SelectMany(g => g.Offers).ToList()
+                Offers = group.SelectMany(g => g.Offers).ToList(),
+                Self = group.First().Self  // Extract the Self property from the first HotelOfferData in the group
             }).ToList();
 
             return groupedHotelOffers;
@@ -67,19 +68,53 @@ namespace HotelComparer.Services
                     Id = offer.Id,
                     CheckInDate = offer.CheckInDate,
                     CheckOutDate = offer.CheckOutDate,
-                    Price = new HotelPrice
-                    {
-                        Base = (Convert.ToDouble(offer.Price.Base) * conversionRate).ToString(),
-                        Currency = responseObj.Dictionaries.CurrencyConversionLookupRates["GBP"].Target
-                    },
+                    RateCode = offer.RateCode,
                     Room = new HotelRoom
                     {
+                        Type = offer.Room.Type,
                         TypeEstimated = new TypeEstimated
                         {
                             Category = offer.Room.TypeEstimated.Category,
+                            Beds = offer.Room.TypeEstimated.Beds,
                             BedType = offer.Room.TypeEstimated.BedType
                         },
-                        Description = offer.Room.Description
+                        Description = new RoomDescription
+                        {
+                            Text = offer.Room.Description.Text,
+                            Lang = offer.Room.Description.Lang
+                        }
+                    },
+                    Guests = new GuestInfo
+                    {
+                        Adults = offer.Guests.Adults
+                    },
+                    Price = new HotelPrice
+                    {
+                        Currency = offer.Price.Currency,
+                        Base = (Convert.ToDouble(offer.Price.Base) * conversionRate).ToString(),
+                        Total = (Convert.ToDouble(offer.Price.Total) * conversionRate).ToString(),
+                        Variations = new PriceVariations
+                        {
+                            Average = new AveragePrice
+                            {
+                                Base = (Convert.ToDouble(offer.Price.Variations.Average.Base) * conversionRate).ToString()
+                            },
+                            Changes = offer.Price.Variations.Changes.Select(change => new PriceChange
+                            {
+                                StartDate = change.StartDate,
+                                EndDate = change.EndDate,
+                                Total = (Convert.ToDouble(change.Total) * conversionRate).ToString()
+                            }).ToList()
+                        }
+                    },
+                    Policies = new PolicyInfo
+                    {
+                        PaymentType = offer.Policies.PaymentType,
+                        Cancellations = offer.Policies.Cancellations.Select(policy => new CancellationPolicy
+                        {
+                            Amount = (Convert.ToDouble(policy.Amount) * conversionRate).ToString(),
+                            Deadline = policy.Deadline
+                        }).ToList()
                     },
                     Self = offer.Self  // Add the Self property for HotelOffer
                 }).ToList()
