@@ -50,9 +50,6 @@ namespace HotelComparer.Services
             var responseObj = JsonConvert.DeserializeObject<AmadeusApiResponse>(jsonResponse);
             var conversionRate = Convert.ToDouble(responseObj.Dictionaries.CurrencyConversionLookupRates["GBP"].Rate);
 
-            var cultureInfo = new System.Globalization.CultureInfo("en-US");
-            cultureInfo.DateTimeFormat.Calendar = new System.Globalization.GregorianCalendar();
-
             return responseObj.Data.Select(data => new HotelOfferData
             {
                 Hotel = new HotelInfo
@@ -64,6 +61,7 @@ namespace HotelComparer.Services
                     Latitude = data.Hotel.Latitude,
                     Longitude = data.Hotel.Longitude
                 },
+                Self = data.Self,  // Add the Self property for HotelOfferData
                 Offers = data.Offers.Select(offer => new HotelOffer
                 {
                     Id = offer.Id,
@@ -82,7 +80,8 @@ namespace HotelComparer.Services
                             BedType = offer.Room.TypeEstimated.BedType
                         },
                         Description = offer.Room.Description
-                    }
+                    },
+                    Self = offer.Self  // Add the Self property for HotelOffer
                 }).ToList()
             }).ToList();
         }
