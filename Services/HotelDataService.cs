@@ -4,16 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using HotelComparer.Models;
 using Newtonsoft.Json;
+using Microsoft.Extensions.Logging;
 
 namespace HotelComparer.Services
 {
     public class HotelDataService : IHotelDataService
     {
         private readonly IAmadeusApiService _amadeusApiService;
+        private readonly ILogger<HotelDataService> _logger;
 
-        public HotelDataService(IAmadeusApiService amadeusApiService)
+        public HotelDataService(IAmadeusApiService amadeusApiService, ILogger<HotelDataService> logger)
         {
             _amadeusApiService = amadeusApiService ?? throw new ArgumentNullException(nameof(amadeusApiService));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task<IEnumerable<HotelOfferData>> GetHotels(HotelSearchRequest request)
@@ -28,19 +31,18 @@ namespace HotelComparer.Services
                     var hotelsFromResponse = ExtractHotelsFromResponse(response);
                     allHotelsData.AddRange(hotelsFromResponse);
                 }
-                catch (JsonException) // Handle possible deserialization issues
+                catch (JsonException ex)
                 {
-                    // Handle or log the error.
-                    // Maybe you want to continue or halt execution based on the nature of your application.
+                    _logger.LogError(ex, "Error deserializing the response from Amadeus API.");
+                    // Consider whether you want to continue or halt execution based on the nature of your application.
                 }
             }
 
-            // Group by hotel data
             var groupedHotelOffers = allHotelsData.GroupBy(h => h.Hotel.HotelId).Select(group => new HotelOfferData
             {
                 Hotel = group.First().Hotel,
                 Offers = group.SelectMany(g => g.Offers).ToList(),
-                Self = group.First().Self  // Extract the Self property from the first HotelOfferData in the group
+                Self = group.First().Self
             }).ToList();
 
             return groupedHotelOffers;
@@ -62,7 +64,7 @@ namespace HotelComparer.Services
                     Latitude = data.Hotel.Latitude,
                     Longitude = data.Hotel.Longitude
                 },
-                Self = data.Self,  // Add the Self property for HotelOfferData
+                Self = data.Self,
                 Offers = data.Offers.Select(offer => new HotelOffer
                 {
                     Id = offer.Id,
@@ -116,7 +118,7 @@ namespace HotelComparer.Services
                             Deadline = policy.Deadline
                         }).ToList()
                     },
-                    Self = offer.Self  // Add the Self property for HotelOffer
+                    Self = offer.Self
                 }).ToList()
             }).ToList();
         }
