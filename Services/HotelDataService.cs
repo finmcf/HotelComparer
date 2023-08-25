@@ -34,7 +34,7 @@ namespace HotelComparer.Services
                 catch (JsonException ex)
                 {
                     _logger.LogError(ex, "Error deserializing the response from Amadeus API.");
-                    // Consider whether you want to continue or halt execution based on the nature of your application.
+                    
                 }
             }
 
