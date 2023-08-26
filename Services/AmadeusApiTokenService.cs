@@ -63,7 +63,7 @@ namespace HotelComparer.Services
             Console.WriteLine($"Response body: {responseBody}");
 
             var cacheEntryOptions = new MemoryCacheEntryOptions()
-                // Keep in cache for this time, reset time if accessed.
+                
                 .SetAbsoluteExpiration(TimeSpan.FromSeconds(tokenResponse.ExpiresIn));
 
             _memoryCache.Set(CacheKey, tokenResponse.AccessToken, cacheEntryOptions);
