@@ -1,4 +1,4 @@
-﻿// IAmadeusApiTokenService.cs
+﻿
 using System.Threading.Tasks;
 
 namespace HotelComparer.Services
