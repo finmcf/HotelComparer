@@ -27,7 +27,7 @@ namespace HotelComparer.Services
                 Console.WriteLine($"Generated URL: {url}"); 
 
                 string response = await SendRequestToAmadeusAsync(url);
-                Console.WriteLine($"Response: {response}"); // Display the response
+                Console.WriteLine($"Response: {response}"); 
 
                 responses.Add(response);
             }
