@@ -94,14 +94,14 @@ namespace HotelComparer.Services
         {
             using (HttpClient client = new HttpClient())
             {
-                // Get the access token
+                
                 string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
                 if (string.IsNullOrEmpty(accessToken))
                 {
                     throw new ArgumentException("Failed to obtain an access token.");
                 }
 
-                // Add the authorization header
+                
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
                 try
