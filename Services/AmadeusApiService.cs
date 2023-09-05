@@ -107,7 +107,7 @@ namespace HotelComparer.Services
                 try
                 {
                     HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode(); // Throw an exception if not a success code.
+                    response.EnsureSuccessStatusCode(); 
                     return await response.Content.ReadAsStringAsync();
                 }
                 catch (HttpRequestException e)
