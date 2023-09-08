@@ -13,7 +13,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
 builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>();
 
-// New service registration
+
 builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 
 var app = builder.Build();
