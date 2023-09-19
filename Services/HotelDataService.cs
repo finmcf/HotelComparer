@@ -123,4 +123,4 @@ namespace HotelComparer.Services
             }).ToList();
         }
     }
-}
+}//
