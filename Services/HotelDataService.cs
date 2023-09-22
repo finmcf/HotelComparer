@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using HotelComparer.Models;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
+////
 
 namespace HotelComparer.Services
 {
