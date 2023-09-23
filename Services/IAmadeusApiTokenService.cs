@@ -8,3 +8,4 @@ namespace HotelComparer.Services
         Task<string> GetAccessTokenAsync();
     }
 }
+///
