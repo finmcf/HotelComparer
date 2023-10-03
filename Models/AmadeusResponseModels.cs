@@ -6,8 +6,9 @@ namespace HotelComparer.Models
     public class HotelOfferData
     {
         public HotelInfo Hotel { get; set; }
-        public bool Available { get; set; }
         public List<HotelOffer> Offers { get; set; } = new List<HotelOffer>();
+        public double CheapestCombination { get; set; }
+        public List<string> CheapestOfferIds { get; set; } = new List<string>();  // Added this property
         public string Self { get; set; }
     }
 

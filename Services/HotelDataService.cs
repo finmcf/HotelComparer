@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using HotelComparer.Models;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
-////////
 
 namespace HotelComparer.Services
 {
@@ -22,6 +21,11 @@ namespace HotelComparer.Services
 
         public async Task<IEnumerable<HotelOfferData>> GetHotels(HotelSearchRequest request)
         {
+            if (!request.CheckInDate.HasValue || !request.CheckOutDate.HasValue)
+            {
+                throw new ArgumentNullException("Check-in and check-out dates are required.");
+            }
+
             var rawResponses = await _amadeusApiService.GetAmadeusResponses(request);
             var allHotelsData = new List<HotelOfferData>();
 
@@ -35,15 +39,25 @@ namespace HotelComparer.Services
                 catch (JsonException ex)
                 {
                     _logger.LogError(ex, "Error deserializing the response from Amadeus API.");
-
                 }
             }
 
-            var groupedHotelOffers = allHotelsData.GroupBy(h => h.Hotel.HotelId).Select(group => new HotelOfferData
+            var groupedHotelOffers = allHotelsData.GroupBy(h => h.Hotel.HotelId).Select(group =>
             {
-                Hotel = group.First().Hotel,
-                Offers = group.SelectMany(g => g.Offers).ToList(),
-                Self = group.First().Self
+                var offers = group.SelectMany(g => g.Offers).ToList();
+                var (cheapestCombination, cheapestOfferIds) = OfferCombinations.GetCheapestValidCombination(
+                    offers,
+                    request.CheckInDate.Value,
+                    request.CheckOutDate.Value);
+
+                return new HotelOfferData
+                {
+                    Hotel = group.First().Hotel,
+                    Offers = offers,
+                    CheapestCombination = cheapestCombination,
+                    CheapestOfferIds = cheapestOfferIds,
+                    Self = group.First().Self
+                };
             }).ToList();
 
             return groupedHotelOffers;
@@ -124,4 +138,54 @@ namespace HotelComparer.Services
             }).ToList();
         }
     }
-}////////
+
+    public class OfferCombinations
+    {
+        private static (double Cost, List<string> OfferIds) FindCheapestCombination(List<HotelOffer> offers, DateTime desiredStart, DateTime desiredEnd)
+        {
+            int days = (desiredEnd - desiredStart).Days;
+            double[,] dp = new double[days, days];
+            List<string>[,] selectedOffers = new List<string>[days, days];
+
+            for (int i = 0; i < days; i++)
+                for (int j = 0; j < days; j++)
+                    dp[i, j] = double.MaxValue;
+
+            foreach (var offer in offers)
+            {
+                double price = Convert.ToDouble(offer.Price.Total);
+                int startDayIndex = (offer.CheckInDate - desiredStart).Days;
+                int endDayIndex = (offer.CheckOutDate - desiredStart).Days - 1;
+
+                if (startDayIndex >= 0 && endDayIndex < days && dp[startDayIndex, endDayIndex] > price)
+                {
+                    dp[startDayIndex, endDayIndex] = price;
+                    selectedOffers[startDayIndex, endDayIndex] = new List<string> { offer.Id };
+                }
+            }
+
+            for (int len = 2; len <= days; len++)
+            {
+                for (int i = 0; i <= days - len; i++)
+                {
+                    int j = i + len - 1;
+                    for (int k = i; k < j; k++)
+                    {
+                        if (dp[i, k] != double.MaxValue && dp[k + 1, j] != double.MaxValue && dp[i, j] > dp[i, k] + dp[k + 1, j])
+                        {
+                            dp[i, j] = dp[i, k] + dp[k + 1, j];
+                            selectedOffers[i, j] = selectedOffers[i, k].Concat(selectedOffers[k + 1, j]).ToList();
+                        }
+                    }
+                }
+            }
+
+            return (dp[0, days - 1] == double.MaxValue ? -1 : dp[0, days - 1], selectedOffers[0, days - 1]);
+        }
+
+        public static (double, List<string>) GetCheapestValidCombination(List<HotelOffer> offers, DateTime desiredStart, DateTime desiredEnd)
+        {
+            return FindCheapestCombination(offers, desiredStart, desiredEnd);
+        }
+    }
+}
