@@ -1,5 +1,4 @@
-using System;
-using HotelComparer.Models;
+
 using HotelComparer.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using YourApiNamespace.Examples;
+using HotelComparer.Examples;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +18,9 @@ builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
 builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>();
 builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 
+// Add necessary configurations for these services
+// Ensure these implementations are correctly defined and accessible
+
 // Register the Swagger generator, defining one or more Swagger documents
 builder.Services.AddSwaggerGen(c =>
 {
@@ -27,7 +29,7 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Register Swagger examples
-builder.Services.AddSwaggerExamplesFromAssemblyOf<HotelOffersExample>(); // Updated this line
+builder.Services.AddSwaggerExamplesFromAssemblyOf<HotelOffersExample>(); // Ensure the assembly reference is correct
 
 var app = builder.Build();
 
@@ -43,6 +45,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseAuthorization();
+app.UseAuthorization(); // Ensure the authorization is configured correctly, including authentication middleware
+
 app.MapControllers();
-app.Run();
+app.Run(); // Ensure that the application is correctly configured to run, including necessary environment settings

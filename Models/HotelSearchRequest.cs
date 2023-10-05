@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations; // Import this namespace
 
 namespace HotelComparer.Models
 {
     public class HotelSearchRequest
     {
+        [Required] // This attribute makes the parameter required
         public List<string> HotelIds { get; set; }
+
+        [Required] // This attribute makes the parameter required
         public DateTime? CheckInDate { get; set; }
+
+        [Required] // This attribute makes the parameter required
         public DateTime? CheckOutDate { get; set; }
 
         // Optional parameters with default values

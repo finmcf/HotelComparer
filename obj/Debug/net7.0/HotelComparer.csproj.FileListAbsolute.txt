@@ -31,3 +31,7 @@
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/obj/Debug/net7.0/HotelComparer.genruntimeconfig.cache
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/obj/Debug/net7.0/ref/HotelComparer.dll
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Newtonsoft.Json.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Scrutor.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll
