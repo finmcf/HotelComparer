@@ -35,3 +35,13 @@
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Scrutor.dll
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.dll
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Swashbuckle.AspNetCore.Filters.Abstractions.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/IdentityModel.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/IdentityServer4.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/IdentityServer4.Storage.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Microsoft.AspNetCore.Authentication.OpenIdConnect.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Microsoft.IdentityModel.Logging.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Microsoft.IdentityModel.Tokens.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/System.IdentityModel.Tokens.Jwt.dll
