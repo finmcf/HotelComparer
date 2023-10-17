@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore; // For EF Core
 using HotelComparer.Data; // For DB context
 using HotelComparer.Middleware; // For custom middleware
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure; // For MySQL server version specification
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +19,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
 
-// Register DbContext with a connection string for MySQL
+// Register DbContext with a connection string from configuration
+var connectionString = builder.Configuration["Database:ConnectionString"];
+
 builder.Services.AddDbContext<ApiDbContext>(options =>
-    options.UseMySql("Server=localhost;Database=HotelComparerApiKeys;User=root;Password=Waterbottle99*;",
+    options.UseMySql(connectionString,
     new MySqlServerVersion(new Version(8, 1, 0)))); // Specify the MySQL version here
 
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();

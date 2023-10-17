@@ -36,4 +36,7 @@
     <Folder Include="Data\" />
     <Folder Include="Middleware\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="HotelComparer.csproj" />
+  </ItemGroup>
 </Project>
