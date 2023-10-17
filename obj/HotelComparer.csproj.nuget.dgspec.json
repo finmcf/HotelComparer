@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/HotelComparer.csproj": {}
+    "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/HotelComparer.csproj": {}
   },
   "projects": {
-    "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/HotelComparer.csproj": {
+    "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/HotelComparer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/HotelComparer.csproj",
+        "projectUniqueName": "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/HotelComparer.csproj",
         "projectName": "HotelComparer",
-        "projectPath": "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/HotelComparer.csproj",
+        "projectPath": "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/HotelComparer.csproj",
         "packagesPath": "/Users/finlay/.nuget/packages/",
-        "outputPath": "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/obj/",
+        "outputPath": "/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/finlay/.nuget/NuGet/NuGet.Config"
@@ -43,9 +43,23 @@
               "target": "Package",
               "version": "[4.1.2, )"
             },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.11, )"
+            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[7.0.0, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
