@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using HotelComparer.Models;
 
@@ -11,6 +12,7 @@ namespace HotelComparer.Services
     {
         private const string AMADEUS_API_URL = "https://test.api.amadeus.com/v3/shopping/hotel-offers";
         private readonly IAmadeusApiTokenService _amadeusApiTokenService;
+        private static SemaphoreSlim _semaphore = new SemaphoreSlim(10); // Control concurrency
 
         public AmadeusApiService(IAmadeusApiTokenService amadeusApiTokenService)
         {
@@ -20,18 +22,15 @@ namespace HotelComparer.Services
         public async Task<IEnumerable<string>> GetAmadeusResponses(HotelSearchRequest request)
         {
             var urls = GenerateUrls(request);
-            var responses = new List<string>();
+            var tasks = new List<Task<string>>();
 
             foreach (var url in urls)
             {
-                Console.WriteLine($"Generated URL: {url}"); 
-
-                string response = await SendRequestToAmadeusAsync(url);
-                Console.WriteLine($"Response: {response}"); 
-
-                responses.Add(response);
+                tasks.Add(SendRequestWithThrottlingAndRetry(url));
             }
 
+            // Awaiting all tasks to complete
+            var responses = await Task.WhenAll(tasks);
             return responses;
         }
 
@@ -90,24 +89,38 @@ namespace HotelComparer.Services
             return dateRanges;
         }
 
+        private async Task<string> SendRequestWithThrottlingAndRetry(string url)
+        {
+            await _semaphore.WaitAsync();  // Wait for the semaphore
+
+            try
+            {
+                await Task.Delay(100);  // Ensure a gap between requests to respect rate limit
+                return await SendRequestToAmadeusAsync(url);
+            }
+            finally
+            {
+                _semaphore.Release();  // Release the semaphore after completion
+            }
+        }
+
         private async Task<string> SendRequestToAmadeusAsync(string url)
         {
             using (HttpClient client = new HttpClient())
             {
-                
                 string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
                 if (string.IsNullOrEmpty(accessToken))
                 {
                     throw new ArgumentException("Failed to obtain an access token.");
                 }
 
-                
-                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+                client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
                 try
                 {
                     HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode(); 
+                    response.EnsureSuccessStatusCode();
                     return await response.Content.ReadAsStringAsync();
                 }
                 catch (HttpRequestException e)
@@ -118,4 +131,3 @@ namespace HotelComparer.Services
         }
     }
 }
-////
