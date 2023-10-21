@@ -7,10 +7,10 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using HotelComparer.Examples;
 using System;
-using Microsoft.EntityFrameworkCore; // For EF Core
-using HotelComparer.Data; // For DB context
-using HotelComparer.Middleware; // For custom middleware
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure; // For MySQL server version specification
+using Microsoft.EntityFrameworkCore;
+using HotelComparer.Data;
+using HotelComparer.Middleware;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,16 +24,40 @@ var connectionString = builder.Configuration["Database:ConnectionString"];
 
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseMySql(connectionString,
-    new MySqlServerVersion(new Version(8, 1, 0)))); // Specify the MySQL version here
+    new MySqlServerVersion(new Version(8, 0, 26))));
 
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
 builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>();
 builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 
-// Register the Swagger generator
+// Register the Swagger generator and add API key support
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel Comparer API", Version = "v1" });
+
+    c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+    {
+        Description = "API Key Authorization header using the ApiKey scheme.",
+        In = ParameterLocation.Header,
+        Name = "ApiKey",
+        Type = SecuritySchemeType.ApiKey
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "ApiKey"
+                }
+            },
+            new string[] {}
+        }
+    });
+
     c.ExampleFilters();
 });
 

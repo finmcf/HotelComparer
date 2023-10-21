@@ -21,15 +21,20 @@ namespace HotelComparer.Services
 
         public async Task<IEnumerable<string>> GetAmadeusResponses(HotelSearchRequest request)
         {
+            string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                throw new InvalidOperationException("Failed to obtain an access token.");
+            }
+
             var urls = GenerateUrls(request);
             var tasks = new List<Task<string>>();
 
             foreach (var url in urls)
             {
-                tasks.Add(SendRequestWithThrottlingAndRetry(url));
+                tasks.Add(SendRequestWithThrottlingAndRetry(url, accessToken));
             }
 
-            // Awaiting all tasks to complete
             var responses = await Task.WhenAll(tasks);
             return responses;
         }
@@ -89,31 +94,25 @@ namespace HotelComparer.Services
             return dateRanges;
         }
 
-        private async Task<string> SendRequestWithThrottlingAndRetry(string url)
+        private async Task<string> SendRequestWithThrottlingAndRetry(string url, string accessToken)
         {
-            await _semaphore.WaitAsync();  // Wait for the semaphore
+            await _semaphore.WaitAsync();
 
             try
             {
-                await Task.Delay(100);  // Ensure a gap between requests to respect rate limit
-                return await SendRequestToAmadeusAsync(url);
+                await Task.Delay(200);
+                return await SendRequestToAmadeusAsync(url, accessToken);
             }
             finally
             {
-                _semaphore.Release();  // Release the semaphore after completion
+                _semaphore.Release();
             }
         }
 
-        private async Task<string> SendRequestToAmadeusAsync(string url)
+        private async Task<string> SendRequestToAmadeusAsync(string url, string accessToken)
         {
             using (HttpClient client = new HttpClient())
             {
-                string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
-                if (string.IsNullOrEmpty(accessToken))
-                {
-                    throw new ArgumentException("Failed to obtain an access token.");
-                }
-
                 client.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
