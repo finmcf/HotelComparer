@@ -85,7 +85,9 @@
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparer/bin/Debug/net7.0/Pomelo.EntityFrameworkCore.MySql.dll
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/appsettings.Development.json
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/appsettings.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/SampleResponses/HotelSampleResponse.json
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/HotelComparer
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/HotelComparer.xml
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/HotelComparer.deps.json
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/HotelComparer.runtimeconfig.json
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/HotelComparer.dll

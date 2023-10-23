@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using HotelComparer.Examples;
 using System;
 using Microsoft.EntityFrameworkCore;
 using HotelComparer.Data;
@@ -54,14 +53,14 @@ builder.Services.AddSwaggerGen(c =>
                     Id = "ApiKey"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 
     c.ExampleFilters();
 });
 
-builder.Services.AddSwaggerExamplesFromAssemblyOf<HotelOffersExample>();
+builder.Services.AddSwaggerExamplesFromAssemblyOf<HotelOfferDataExample>();
 
 var app = builder.Build();
 

@@ -7,6 +7,10 @@
     <UserSecretsId>5c8377b2-60a3-4a1f-8a2d-8e74f265fe0d</UserSecretsId>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net7.0\HotelComparer.xml</DocumentationFile>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
@@ -27,6 +31,8 @@
     <None Remove="Examples\" />
     <None Remove="Data\" />
     <None Remove="Middleware\" />
+    <None Remove="SampleResponses\" />
+    <None Remove="SwaggerExamples\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -35,6 +41,8 @@
     <Folder Include="Examples\" />
     <Folder Include="Data\" />
     <Folder Include="Middleware\" />
+    <Folder Include="SampleResponses\" />
+    <Folder Include="SwaggerExamples\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HotelComparer.csproj" />

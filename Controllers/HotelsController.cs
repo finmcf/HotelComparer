@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using HotelComparer.Models;
 using HotelComparer.Services;
 using System.Threading.Tasks;
+using Swashbuckle.AspNetCore.Filters;  // Make sure to add this line
 
 namespace HotelComparer.Controllers
 {
@@ -21,6 +22,10 @@ namespace HotelComparer.Controllers
 
         // GET: api/Hotels
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<HotelOfferData>))]
+        [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HotelOfferDataExample))]  // Added this line
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<HotelOfferData>>> GetHotels([FromQuery] HotelSearchRequest request)
         {
             if (!ModelState.IsValid)

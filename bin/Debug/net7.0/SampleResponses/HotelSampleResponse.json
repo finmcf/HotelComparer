@@ -1,0 +1,173 @@
+﻿[
+  {
+    "hotel": {
+      "type": null,
+      "hotelId": "MCLONMAR",
+      "chainCode": "MC",
+      "dupeId": null,
+      "name": "LONDON MARRIOTT MARBLE ARCH",
+      "cityCode": "LON",
+      "latitude": 51.51587,
+      "longitude": -0.16413
+    },
+    "offers": [
+      {
+        "id": "CBKOMWUQ9X",
+        "checkInDate": "2023-10-27T00:00:00",
+        "checkOutDate": "2023-10-28T00:00:00",
+        "rateCode": "S9R",
+        "rateFamilyEstimated": null,
+        "room": {
+          "type": "XMI",
+          "typeEstimated": {
+            "category": "DELUXE_ROOM",
+            "beds": 1,
+            "bedType": "KING"
+          },
+          "description": {
+            "text": "Marriott Senior Discount, 62 years and older valid ID required\nDeluxe Room, 1 King, 22sqm/237sqft,\nLiving/sitting area, Wireless internet, for a",
+            "lang": "EN"
+          }
+        },
+        "guests": {
+          "adults": 1
+        },
+        "price": {
+          "currency": "GBP",
+          "base": "338.641272",
+          "total": "338.641272",
+          "variations": {
+            "average": {
+              "base": "338.641272"
+            },
+            "changes": [
+              {
+                "startDate": "2023-10-27T00:00:00",
+                "endDate": "2023-10-28T00:00:00",
+                "total": "338.641272"
+              }
+            ]
+          }
+        },
+        "policies": {
+          "cancellations": [
+            {
+              "amount": "338.641272",
+              "deadline": "2023-10-26T23:59:00+01:00"
+            }
+          ],
+          "paymentType": null
+        },
+        "self": "https://test.api.amadeus.com/v3/shopping/hotel-offers/CBKOMWUQ9X?lang=EN"
+      },
+      {
+        "id": "L8QS3WF38E",
+        "checkInDate": "2023-10-27T00:00:00",
+        "checkOutDate": "2023-10-29T00:00:00",
+        "rateCode": "S9R",
+        "rateFamilyEstimated": null,
+        "room": {
+          "type": "XMI",
+          "typeEstimated": {
+            "category": "DELUXE_ROOM",
+            "beds": 1,
+            "bedType": "KING"
+          },
+          "description": {
+            "text": "Marriott Senior Discount, 62 years and older valid ID required\nDeluxe Room, 1 King, 22sqm/237sqft,\nLiving/sitting area, Wireless internet, for a",
+            "lang": "EN"
+          }
+        },
+        "guests": {
+          "adults": 1
+        },
+        "price": {
+          "currency": "GBP",
+          "base": "648.152112",
+          "total": "648.152112",
+          "variations": {
+            "average": {
+              "base": "324.076056"
+            },
+            "changes": [
+              {
+                "startDate": "2023-10-27T00:00:00",
+                "endDate": "2023-10-28T00:00:00",
+                "total": "338.641272"
+              },
+              {
+                "startDate": "2023-10-28T00:00:00",
+                "endDate": "2023-10-29T00:00:00",
+                "total": "309.51084"
+              }
+            ]
+          }
+        },
+        "policies": {
+          "cancellations": [
+            {
+              "amount": "338.641272",
+              "deadline": "2023-10-26T23:59:00+01:00"
+            }
+          ],
+          "paymentType": null
+        },
+        "self": "https://test.api.amadeus.com/v3/shopping/hotel-offers/L8QS3WF38E?lang=EN"
+      },
+      {
+        "id": "GQYP4CAY8P",
+        "checkInDate": "2023-10-28T00:00:00",
+        "checkOutDate": "2023-10-29T00:00:00",
+        "rateCode": "S9R",
+        "rateFamilyEstimated": null,
+        "room": {
+          "type": "XMI",
+          "typeEstimated": {
+            "category": "DELUXE_ROOM",
+            "beds": 1,
+            "bedType": "KING"
+          },
+          "description": {
+            "text": "Marriott Senior Discount, 62 years and older valid ID required\nDeluxe Room, 1 King, 22sqm/237sqft,\nLiving/sitting area, Wireless internet, for a",
+            "lang": "EN"
+          }
+        },
+        "guests": {
+          "adults": 1
+        },
+        "price": {
+          "currency": "GBP",
+          "base": "309.51084",
+          "total": "309.51084",
+          "variations": {
+            "average": {
+              "base": "309.51084"
+            },
+            "changes": [
+              {
+                "startDate": "2023-10-28T00:00:00",
+                "endDate": "2023-10-29T00:00:00",
+                "total": "309.51084"
+              }
+            ]
+          }
+        },
+        "policies": {
+          "cancellations": [
+            {
+              "amount": "309.51084",
+              "deadline": "2023-10-27T23:59:00+01:00"
+            }
+          ],
+          "paymentType": null
+        },
+        "self": "https://test.api.amadeus.com/v3/shopping/hotel-offers/GQYP4CAY8P?lang=EN"
+      }
+    ],
+    "cheapestCombination": 648.152112,
+    "cheapestOfferIds": [
+      "L8QS3WF38E"
+    ],
+    "self": "https://test.api.amadeus.com/v3/shopping/hotel-offers?hotelIds=MCLONMAR&adults=1&boardType=ROOM_ONLY&checkInDate=2023-10-27&checkOutDate=2023-10-28&countryOfResidence=US&currency=USD&lang=EN&paymentPolicy=NONE&roomQuantity=1"
+  }
+]
