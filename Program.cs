@@ -14,26 +14,28 @@ using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Register services
+// Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddMemoryCache();
 
-// Register DbContext with a connection string from configuration
+// Register the IHttpClientFactory
+builder.Services.AddHttpClient();
+
+// Use the same connection string retrieval method as before
 var connectionString = builder.Configuration["Database:ConnectionString"];
-
 builder.Services.AddDbContext<ApiDbContext>(options =>
-    options.UseMySql(connectionString,
-    new MySqlServerVersion(new Version(8, 0, 26))));
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 26))));
 
+// Register your services here as in the old version
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
 builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>();
 builder.Services.AddScoped<IHotelDataService, HotelDataService>();
+builder.Services.AddScoped<IAmadeusAutocompleteService, AmadeusAutocompleteService>();
 
-// Register the Swagger generator and add API key support
+// Swagger configuration as before
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel Comparer API", Version = "v1" });
-
     c.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
     {
         Description = "API Key Authorization header using the ApiKey scheme.",
@@ -41,7 +43,6 @@ builder.Services.AddSwaggerGen(c =>
         Name = "ApiKey",
         Type = SecuritySchemeType.ApiKey
     });
-
     c.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -56,14 +57,15 @@ builder.Services.AddSwaggerGen(c =>
             Array.Empty<string>()
         }
     });
-
     c.ExampleFilters();
 });
 
 builder.Services.AddSwaggerExamplesFromAssemblyOf<HotelOfferDataExample>();
 
+// Build the application
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -76,10 +78,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Use middleware for API key and permissions checking
+// API key middleware as before
 app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
 app.Run();
