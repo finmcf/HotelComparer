@@ -3,39 +3,45 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.Workbench ActiveDocument="Services/HotelDataService.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Services/AmadeusAutocompleteService.cs">
     <Files>
-      <File FileName="Program.cs" Line="1" Column="1" />
+      <File FileName="Program.cs" Line="89" Column="1" />
       <File FileName="HotelComparer.csproj" />
-      <File FileName="Controllers/HotelsController.cs" />
-      <File FileName="Models/HotelSearchRequest.cs" />
-      <File FileName="Services/IAmadeusApiService.cs" />
-      <File FileName="Services/AmadeusApiService.cs" />
+      <File FileName="Controllers/HotelsController.cs" Line="12" Column="32" />
+      <File FileName="Models/HotelSearchRequest.cs" Line="1" Column="1" />
+      <File FileName="Services/IAmadeusApiService.cs" Line="1" Column="1" />
+      <File FileName="Services/AmadeusApiService.cs" Line="21" Column="1" />
       <File FileName="appsettings.json" />
       <File FileName="Services/IAmadeusApiTokenService.cs" />
-      <File FileName="Models/AmadeusApiTokenResponse.cs" />
-      <File FileName="Services/AmadeusApiTokenService.cs" />
+      <File FileName="Models/AmadeusApiTokenResponse.cs" Line="1" Column="1" />
+      <File FileName="Services/AmadeusApiTokenService.cs" Line="77" Column="1" />
       <File FileName="Services/IHotelDataService.cs" />
-      <File FileName="Services/HotelDataService.cs" Line="1" Column="1" />
-      <File FileName="Models/AmadeusResponseModels.cs" />
+      <File FileName="Services/HotelDataService.cs" Line="5" Column="28" />
+      <File FileName="Models/AmadeusResponseModels.cs" Line="1" Column="1" />
       <File FileName="Properties/launchSettings.json" />
       <File FileName="Examples/HotelOffersExample.cs" />
       <File FileName="SampleResponses/HotelSampleResponse.json" />
-      <File FileName="Middleware/ApiKeyMiddleware.cs" Line="1" Column="1" />
-      <File FileName="Data/ApiDbContext.cs" Line="1" Column="1" />
+      <File FileName="Middleware/ApiKeyMiddleware.cs" />
+      <File FileName="Data/ApiDbContext.cs" />
+      <File FileName="Services/AmadeusAutocompleteService.cs" Line="1" Column="1" />
+      <File FileName="Services/IAmadeusAutocompleteService.cs" Line="3" Column="1" />
+      <File FileName="Models/HotelAutocompleteResult.cs" Line="1" Column="1" />
+      <File FileName="Models/ApiKey.cs" Line="1" Column="1" />
+      <File FileName="Controllers/AutocompleteController.cs" Line="16" Column="20" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="HotelComparer" expanded="True">
-            <Node name="HotelComparer" expanded="True">
+          <Node name="HotelComparer">
+            <Node name="HotelComparer">
+              <Node name="Controllers" expanded="True" />
               <Node name="Data" expanded="True" />
               <Node name="Examples" expanded="True" />
               <Node name="Middleware" expanded="True" />
               <Node name="Migrations" expanded="True" />
               <Node name="Models" expanded="True" />
               <Node name="Services" expanded="True">
-                <Node name="HotelDataService.cs" selected="True" />
+                <Node name="AmadeusAutocompleteService.cs" selected="True" />
               </Node>
             </Node>
           </Node>

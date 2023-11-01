@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-
+using HotelComparer.Models; // Ensure this using directive is correct
 using Newtonsoft.Json;
 
 namespace HotelComparer.Services
@@ -34,8 +34,7 @@ namespace HotelComparer.Services
 
             var requestUrl = $"{AutocompleteApiUrl}?keyword={Uri.EscapeDataString(keyword)}&subType=HOTEL_LEISURE"; // Customize query parameters as needed
 
-            _httpClient.DefaultRequestHeaders.Authorization =
-                new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+            _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
 
             HttpResponseMessage response = await _httpClient.GetAsync(requestUrl);
             response.EnsureSuccessStatusCode();
@@ -47,18 +46,10 @@ namespace HotelComparer.Services
         }
     }
 
-    // Models to match the JSON structure returned by Amadeus API.
+    // Make sure this model matches the JSON structure from the Amadeus API
     public class HotelAutocompleteResponse
     {
         [JsonProperty("data")]
         public List<HotelAutocompleteResult> Data { get; set; }
-    }
-
-    public class HotelAutocompleteResult
-    {
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        // Add other properties as needed based on the Amadeus API response
     }
 }
