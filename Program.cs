@@ -32,6 +32,17 @@ builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>();
 builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 builder.Services.AddScoped<IAmadeusAutocompleteService, AmadeusAutocompleteService>();
 
+// Configure CORS
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:3000") // Replace with the actual origin of your frontend app
+               .AllowAnyHeader()
+               .AllowAnyMethod();
+    });
+});
+
 // Swagger configuration as before
 builder.Services.AddSwaggerGen(c =>
 {
@@ -77,6 +88,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Use CORS
+app.UseCors();
 
 // API key middleware as before
 app.UseMiddleware<ApiKeyMiddleware>();
