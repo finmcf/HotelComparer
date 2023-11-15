@@ -26,7 +26,12 @@ namespace HotelComparer.Services
                 throw new ArgumentException("Keyword must not be null or whitespace.", nameof(keyword));
             }
 
-            string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
+            string accessToken = _amadeusApiTokenService.GetCachedAccessToken();
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
+            }
+
             if (string.IsNullOrEmpty(accessToken))
             {
                 throw new InvalidOperationException("Failed to obtain an access token.");
