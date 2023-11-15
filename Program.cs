@@ -26,9 +26,9 @@ var connectionString = builder.Configuration["Database:ConnectionString"];
 builder.Services.AddDbContext<ApiDbContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 26))));
 
-// Register your services here as in the old version
+// Register your services here
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
-builder.Services.AddScoped<IAmadeusApiTokenService, AmadeusApiTokenService>();
+builder.Services.AddSingleton<IAmadeusApiTokenService, AmadeusApiTokenService>(); // Singleton registration
 builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 builder.Services.AddScoped<IAmadeusAutocompleteService, AmadeusAutocompleteService>();
 
@@ -43,7 +43,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Swagger configuration as before
+// Swagger configuration
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Hotel Comparer API", Version = "v1" });
@@ -75,6 +75,9 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<HotelOfferDataExample>();
 
 // Build the application
 var app = builder.Build();
+
+// Resolve AmadeusApiTokenService to start the background token refresh process
+var tokenService = app.Services.GetRequiredService<IAmadeusApiTokenService>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -21,7 +21,12 @@ namespace HotelComparer.Services
 
         public async Task<IEnumerable<string>> GetAmadeusResponses(HotelSearchRequest request)
         {
-            string accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
+            string accessToken = _amadeusApiTokenService.GetCachedAccessToken();
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
+            }
+
             if (string.IsNullOrEmpty(accessToken))
             {
                 throw new InvalidOperationException("Failed to obtain an access token.");
@@ -58,14 +63,9 @@ namespace HotelComparer.Services
 
         private void ValidateRequestDates(HotelSearchRequest request)
         {
-            if (!request.CheckInDate.HasValue)
+            if (!request.CheckInDate.HasValue || !request.CheckOutDate.HasValue)
             {
-                throw new ArgumentNullException(nameof(request.CheckInDate), "Check-in date cannot be null.");
-            }
-
-            if (!request.CheckOutDate.HasValue)
-            {
-                throw new ArgumentNullException(nameof(request.CheckOutDate), "Check-out date cannot be null.");
+                throw new ArgumentNullException("Check-in and Check-out dates cannot be null.");
             }
 
             if (request.CheckInDate.Value.Date < DateTime.UtcNow.Date)
@@ -100,7 +100,7 @@ namespace HotelComparer.Services
 
             try
             {
-                await Task.Delay(200);
+                await Task.Delay(200); // Simulate a delay for throttling
                 return await SendRequestToAmadeusAsync(url, accessToken);
             }
             finally
