@@ -3,20 +3,22 @@
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.HotelComparer PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Services/HotelDataService.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Services/AmadeusAutocompleteService.cs">
     <Files>
-      <File FileName="Program.cs" Line="103" Column="1" />
+      <File FileName="Program.cs" Line="106" Column="1" />
       <File FileName="HotelComparer.csproj" />
-      <File FileName="Controllers/HotelsController.cs" />
+      <File FileName="Controllers/HotelsController.cs" Line="1" Column="1" />
       <File FileName="Models/HotelSearchRequest.cs" />
       <File FileName="Services/IAmadeusApiService.cs" Line="1" Column="1" />
-      <File FileName="Services/AmadeusApiService.cs" />
+      <File FileName="Services/AmadeusApiService.cs" Line="133" Column="1" />
       <File FileName="appsettings.json" />
-      <File FileName="Services/IAmadeusApiTokenService.cs" Line="11" Column="10" />
+      <File FileName="Services/IAmadeusApiTokenService.cs" Line="17" Column="1" />
       <File FileName="Models/AmadeusApiTokenResponse.cs" />
-      <File FileName="Services/AmadeusApiTokenService.cs" Line="77" Column="1" />
-      <File FileName="Services/IHotelDataService.cs" Line="1" Column="1" />
+      <File FileName="Services/AmadeusApiTokenService.cs" Line="1" Column="1" />
+      <File FileName="Services/IHotelDataService.cs" />
       <File FileName="Services/HotelDataService.cs" Line="5" Column="28" />
       <File FileName="Models/AmadeusResponseModels.cs" />
       <File FileName="Properties/launchSettings.json" />
@@ -24,9 +26,9 @@
       <File FileName="SampleResponses/HotelSampleResponse.json" />
       <File FileName="Middleware/ApiKeyMiddleware.cs" />
       <File FileName="Data/ApiDbContext.cs" />
-      <File FileName="Services/AmadeusAutocompleteService.cs" Line="56" Column="1" />
-      <File FileName="Services/IAmadeusAutocompleteService.cs" Line="12" Column="1" />
-      <File FileName="Models/HotelAutocompleteResult.cs" Line="1" Column="1" />
+      <File FileName="Services/AmadeusAutocompleteService.cs" Line="61" Column="1" />
+      <File FileName="Services/IAmadeusAutocompleteService.cs" Line="1" Column="1" />
+      <File FileName="Models/HotelAutocompleteResult.cs" />
       <File FileName="Models/ApiKey.cs" />
       <File FileName="Controllers/AutocompleteController.cs" />
     </Files>
@@ -34,17 +36,13 @@
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="HotelComparer">
-            <Node name="HotelComparer">
-              <Node name="Models" expanded="True" />
-              <Node name="Services" expanded="True">
-                <Node name="HotelDataService.cs" selected="True" />
-              </Node>
+            <Node name="HotelComparer" expanded="True">
+              <Node name="Controllers" expanded="True" />
+              <Node name="Services" expanded="True" />
             </Node>
           </Node>
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.ItemProperties.HotelComparer PreferredExecutionTarget="/Applications/Google Chrome.app" />
-  <MultiItemStartupConfigurations />
 </Properties>
