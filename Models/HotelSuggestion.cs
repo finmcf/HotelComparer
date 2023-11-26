@@ -2,7 +2,7 @@
 
 namespace HotelComparer.Models
 {
-    public class CombinedResponse
+    public class HotelSuggestion
     {
         public string Id { get; set; }
         public string Name { get; set; }

@@ -47,4 +47,7 @@
   <ItemGroup>
     <None Include="HotelComparer.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Services\CombinedAutocompleteService.cs" />
+  </ItemGroup>
 </Project>
