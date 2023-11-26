@@ -25,7 +25,7 @@ namespace HotelComparer.Models
         public string BoardType { get; set; } = "ROOM_ONLY";
         public bool IncludeClosed { get; set; } = true;
         public bool BestRateOnly { get; set; } = true;
-        public string Language { get; set; } = "ENG";  // Added Language parameter
+        public string Language { get; set; } = "EN";  // Added Language parameter
 
         public HotelSearchRequest()
         {

@@ -29,6 +29,7 @@ builder.Services.AddDbContext<ApiDbContext>(options =>
 // Register your services here
 builder.Services.AddScoped<IAmadeusApiService, AmadeusApiService>();
 builder.Services.AddSingleton<IAmadeusApiTokenService, AmadeusApiTokenService>(); // Singleton registration
+builder.Services.AddSingleton<IHereApiTokenService, HereApiTokenService>(); // Adding HereApiTokenService as a Singleton
 builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 builder.Services.AddScoped<IAmadeusAutocompleteService, AmadeusAutocompleteService>();
 
@@ -76,8 +77,9 @@ builder.Services.AddSwaggerExamplesFromAssemblyOf<HotelOfferDataExample>();
 // Build the application
 var app = builder.Build();
 
-// Resolve AmadeusApiTokenService to start the background token refresh process
-var tokenService = app.Services.GetRequiredService<IAmadeusApiTokenService>();
+// Resolve token services to start their background processes
+var amadeusTokenService = app.Services.GetRequiredService<IAmadeusApiTokenService>();
+var hereTokenService = app.Services.GetRequiredService<IHereApiTokenService>(); // Initializing HereApiTokenService
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
