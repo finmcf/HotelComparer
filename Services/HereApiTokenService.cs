@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using HotelComparer.Models; // Importing the Models namespace
 
 namespace HotelComparer.Services
 {
@@ -146,11 +147,5 @@ namespace HotelComparer.Services
             _tokenRefreshTimer?.Dispose();
         }
     }
-
-    // Dummy class for deserialization, replace with actual response class
-    public class HereApiTokenResponse
-    {
-        public string AccessToken { get; set; }
-        public int ExpiresIn { get; set; }
-    }
 }
+
