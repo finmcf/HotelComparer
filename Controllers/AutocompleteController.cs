@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using HotelComparer.Services;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging; // Add this to use ILogger
+using Microsoft.Extensions.Logging;
 
 namespace HotelComparer.Controllers
 {
@@ -10,19 +10,18 @@ namespace HotelComparer.Controllers
     [ApiController]
     public class AutocompleteController : ControllerBase
     {
-        private readonly IAmadeusAutocompleteService _autocompleteService;
-        private readonly ILogger<AutocompleteController> _logger; // Add this field
+        private readonly ICombinedResponsesService _combinedService;
+        private readonly ILogger<AutocompleteController> _logger;
 
-        // Inject ILogger into the constructor
-        public AutocompleteController(IAmadeusAutocompleteService autocompleteService, ILogger<AutocompleteController> logger)
+        public AutocompleteController(ICombinedResponsesService combinedService, ILogger<AutocompleteController> logger)
         {
-            _autocompleteService = autocompleteService;
-            _logger = logger; // Assign the logger here
+            _combinedService = combinedService;
+            _logger = logger;
         }
 
-        // GET: api/Autocomplete?keyword=paris
+        // GET: api/Autocomplete?keyword=paris&latitude=48.8566&longitude=2.3522
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] string keyword)
+        public async Task<IActionResult> Get([FromQuery] string keyword, [FromQuery] double? latitude, [FromQuery] double? longitude)
         {
             if (string.IsNullOrWhiteSpace(keyword))
             {
@@ -31,14 +30,12 @@ namespace HotelComparer.Controllers
 
             try
             {
-                var suggestions = await _autocompleteService.GetHotelAutocompleteSuggestions(keyword);
+                var suggestions = await _combinedService.GetCombinedSuggestions(keyword, latitude, longitude);
                 return Ok(suggestions);
             }
             catch (System.Exception ex)
             {
-                // Log the exception with the injected logger
-                _logger.LogError(ex, "An error occurred while attempting to get autocomplete suggestions for keyword {Keyword}.", keyword);
-
+                _logger.LogError(ex, "An error occurred while attempting to get combined autocomplete suggestions for keyword {Keyword}.", keyword);
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing your request.");
             }
         }

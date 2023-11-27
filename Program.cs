@@ -32,6 +32,8 @@ builder.Services.AddSingleton<IAmadeusApiTokenService, AmadeusApiTokenService>()
 builder.Services.AddSingleton<IHereApiTokenService, HereApiTokenService>(); // Adding HereApiTokenService as a Singleton
 builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 builder.Services.AddScoped<IAmadeusAutocompleteService, AmadeusAutocompleteService>();
+builder.Services.AddScoped<IHereAutosuggestService, HereAutosuggestService>(); // Register HereAutosuggestService
+builder.Services.AddScoped<ICombinedResponsesService, CombinedResponsesService>(); // Register CombinedResponsesService
 
 // Configure CORS
 builder.Services.AddCors(options =>
