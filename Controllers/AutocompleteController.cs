@@ -19,7 +19,7 @@ namespace HotelComparer.Controllers
             _logger = logger;
         }
 
-        // GET: api/Autocomplete?keyword=paris&latitude=48.8566&longitude=2.3522
+        
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] string keyword, [FromQuery] double? latitude, [FromQuery] double? longitude)
         {

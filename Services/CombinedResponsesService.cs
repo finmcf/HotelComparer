@@ -40,12 +40,10 @@ namespace HotelComparer.Services
 
             try
             {
-                if (latitude.HasValue && longitude.HasValue)
-                {
-                    _logger.LogInformation("Fetching location suggestions from Here API.");
-                    hereSuggestions = (await _hereService.GetLocationSuggestions(keyword, latitude.Value, longitude.Value)).ToList();
-                    _logger.LogInformation("Received location suggestions from Here API.");
-                }
+                _logger.LogInformation("Fetching location suggestions from Here API.");
+                // Ensure HereAutosuggestService is always called
+                hereSuggestions = (await _hereService.GetLocationSuggestions(keyword, latitude ?? 0, longitude ?? 0)).ToList();
+                _logger.LogInformation("Received location suggestions from Here API.");
             }
             catch (System.Exception ex)
             {
