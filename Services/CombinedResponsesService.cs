@@ -10,16 +10,16 @@ namespace HotelComparer.Services
     {
         private readonly IAmadeusAutocompleteService _amadeusService;
         private readonly IHereAutosuggestService _hereService;
-        private readonly ILogger<CombinedResponsesService> _logger; // Logger dependency
+        private readonly ILogger<CombinedResponsesService> _logger;
 
         public CombinedResponsesService(
             IAmadeusAutocompleteService amadeusService,
             IHereAutosuggestService hereService,
-            ILogger<CombinedResponsesService> logger) // Inject ILogger
+            ILogger<CombinedResponsesService> logger)
         {
             _amadeusService = amadeusService;
             _hereService = hereService;
-            _logger = logger; // Initialize the logger
+            _logger = logger;
         }
 
         public async Task<IEnumerable<HotelSuggestion>> GetCombinedSuggestions(string keyword, double? latitude, double? longitude)
@@ -52,8 +52,30 @@ namespace HotelComparer.Services
                 _logger.LogError(ex, "Error occurred while fetching suggestions from Here API.");
             }
 
-            var combinedSuggestions = amadeusSuggestions.Concat(hereSuggestions);
+            var combinedSuggestions = amadeusSuggestions.Concat(hereSuggestions)
+                .OrderByDescending(s => CalculateSimilarity(keyword, s.Name))
+                .ThenBy(s => GetTypePriority(s.Type))
+                .ToList();
+
             return combinedSuggestions;
+        }
+
+        private double CalculateSimilarity(string keyword, string name)
+        {
+            // Simple similarity calculation (can be replaced with a more advanced algorithm)
+            // For now, just counting the number of characters in common
+            return name.Intersect(keyword).Count();
+        }
+
+        private int GetTypePriority(string type)
+        {
+            switch (type)
+            {
+                case "Locality": return 1;
+                case "Place": return 2;
+                case "Hotel": return 3;
+                default: return 4;
+            }
         }
     }
 

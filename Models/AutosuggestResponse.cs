@@ -1,12 +1,9 @@
-﻿namespace HotelComparer.Models
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+
+namespace HotelComparer.Models
 {
-    using System;
-    using System.Collections.Generic;
-
-    using System.Globalization;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Converters;
-
     public partial class AutosuggestResponse
     {
         [JsonProperty("items")]
@@ -48,8 +45,35 @@
         [JsonProperty("href", NullValueHandling = NullValueHandling.Ignore)]
         public Uri Href { get; set; }
 
+        [JsonProperty("categories", NullValueHandling = NullValueHandling.Ignore)]
+        public Category[] Categories { get; set; }
+
+        [JsonProperty("chains", NullValueHandling = NullValueHandling.Ignore)]
+        public Chain[] Chains { get; set; }
+
         [JsonProperty("administrativeAreaType", NullValueHandling = NullValueHandling.Ignore)]
         public string AdministrativeAreaType { get; set; }
+    }
+
+    public partial class Category
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("primary")]
+        public bool Primary { get; set; }
+    }
+
+    public partial class Chain
+    {
+        [JsonProperty("id")]
+        public string Id { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 
     public partial class ItemAddress

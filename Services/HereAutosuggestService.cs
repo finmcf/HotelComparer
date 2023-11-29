@@ -68,6 +68,7 @@ namespace HotelComparer.Services
                 var autosuggestData = JsonConvert.DeserializeObject<AutosuggestResponse>(jsonResponse);
 
                 var suggestions = autosuggestData?.Items
+                    .Where(item => !IsHotel(item))
                     .Select(item => new HotelSuggestion
                     {
                         Id = item.Id.ToString(),
@@ -76,7 +77,6 @@ namespace HotelComparer.Services
                         Longitude = ConvertToDouble(item.Position?.Lng),
                         Type = item.ResultType == "locality" ? "Locality" : "Place",
                         Address = item.Address?.Label.ToString(),
-                        // Additional logic can be added here to handle other fields as needed
                     })
                     .ToList() ?? new List<HotelSuggestion>();
 
@@ -89,9 +89,24 @@ namespace HotelComparer.Services
             }
         }
 
+        private bool IsHotel(AutosuggestItem item)
+        {
+            // Implement logic to determine if an item is a hotel
+            return item.ResultType == "chainQuery" ||
+                   (item.Categories != null && item.Categories.Any(cat => cat.Name.Equals("Hotel", StringComparison.OrdinalIgnoreCase))) ||
+                   item.Title.Contains("Hotel", StringComparison.OrdinalIgnoreCase) ||
+                   (item.Chains != null && item.Chains.Any(chain => IsKnownHotelChain(chain.Name)));
+        }
+
+        private bool IsKnownHotelChain(string chainName)
+        {
+            // List of known hotel chains can be maintained here
+            var knownHotelChains = new HashSet<string> { "Holiday Inn", "Ibis", "Marriott", "Hilton" };
+            return knownHotelChains.Contains(chainName, StringComparer.OrdinalIgnoreCase);
+        }
+
         private double ConvertToDouble(double? value)
         {
-            // Convert double? to double
             return value ?? 0.0;
         }
     }
