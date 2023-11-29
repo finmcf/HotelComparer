@@ -1,80 +1,108 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
-
-namespace HotelComparer.Models
+﻿namespace HotelComparer.Models
 {
-    public class AutosuggestResponse
+    using System;
+    using System.Collections.Generic;
+
+    using System.Globalization;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+
+    public partial class AutosuggestResponse
     {
         [JsonProperty("items")]
-        public List<AutosuggestItem> Items { get; set; }
+        public AutosuggestItem[] Items { get; set; }
+
+        [JsonProperty("queryTerms")]
+        public object[] QueryTerms { get; set; }
     }
 
-    public class AutosuggestItem
+    public partial class AutosuggestItem
     {
+        [JsonProperty("title")]
         public string Title { get; set; }
+
+        [JsonProperty("id")]
         public string Id { get; set; }
+
+        [JsonProperty("resultType")]
         public string ResultType { get; set; }
-        public string Href { get; set; }
-        public Highlights Highlights { get; set; }
-        public Address Address { get; set; }
+
+        [JsonProperty("localityType", NullValueHandling = NullValueHandling.Ignore)]
+        public string LocalityType { get; set; }
+
+        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
+        public ItemAddress Address { get; set; }
+
+        [JsonProperty("position", NullValueHandling = NullValueHandling.Ignore)]
         public Position Position { get; set; }
-        public List<Access> Access { get; set; }
-        public int Distance { get; set; }
-        public List<Category> Categories { get; set; }
-        public List<Chain> Chains { get; set; }
-        public List<Reference> References { get; set; }
+
+        [JsonProperty("distance", NullValueHandling = NullValueHandling.Ignore)]
+        public long? Distance { get; set; }
+
+        [JsonProperty("mapView", NullValueHandling = NullValueHandling.Ignore)]
+        public MapView MapView { get; set; }
+
+        [JsonProperty("highlights")]
+        public Highlights Highlights { get; set; }
+
+        [JsonProperty("href", NullValueHandling = NullValueHandling.Ignore)]
+        public Uri Href { get; set; }
+
+        [JsonProperty("administrativeAreaType", NullValueHandling = NullValueHandling.Ignore)]
+        public string AdministrativeAreaType { get; set; }
     }
 
-    public class Highlights
+    public partial class ItemAddress
     {
-        public List<HighlightRange> Title { get; set; }
-        public List<HighlightRange> Address { get; set; }
-    }
-
-    public class HighlightRange
-    {
-        public int Start { get; set; }
-        public int End { get; set; }
-    }
-
-    public class Address
-    {
+        [JsonProperty("label")]
         public string Label { get; set; }
     }
 
-    public class Position
+    public partial class Highlights
     {
+        [JsonProperty("title")]
+        public Title[] Title { get; set; }
+
+        [JsonProperty("address", NullValueHandling = NullValueHandling.Ignore)]
+        public HighlightsAddress Address { get; set; }
+    }
+
+    public partial class HighlightsAddress
+    {
+        [JsonProperty("label")]
+        public Title[] Label { get; set; }
+    }
+
+    public partial class Title
+    {
+        [JsonProperty("start")]
+        public long Start { get; set; }
+
+        [JsonProperty("end")]
+        public long End { get; set; }
+    }
+
+    public partial class MapView
+    {
+        [JsonProperty("west")]
+        public double West { get; set; }
+
+        [JsonProperty("south")]
+        public double South { get; set; }
+
+        [JsonProperty("east")]
+        public double East { get; set; }
+
+        [JsonProperty("north")]
+        public double North { get; set; }
+    }
+
+    public partial class Position
+    {
+        [JsonProperty("lat")]
         public double Lat { get; set; }
+
+        [JsonProperty("lng")]
         public double Lng { get; set; }
-    }
-
-    public class Access
-    {
-        public double Lat { get; set; }
-        public double Lng { get; set; }
-    }
-
-    public class Category
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public bool Primary { get; set; }
-    }
-
-    public class Chain
-    {
-        public string Id { get; set; }
-        public string Name { get; set; }
-    }
-
-    public class Reference
-    {
-        public Supplier Supplier { get; set; }
-        public string Id { get; set; }
-    }
-
-    public class Supplier
-    {
-        public string Id { get; set; }
     }
 }

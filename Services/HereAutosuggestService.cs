@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using HotelComparer.Models;
 using System.Linq;
-using Microsoft.Extensions.Logging; // Importing the ILogger namespace
+using Microsoft.Extensions.Logging;
 
 namespace HotelComparer.Services
 {
@@ -14,16 +14,16 @@ namespace HotelComparer.Services
         private const string AutosuggestApiUrl = "https://autosuggest.search.hereapi.com/v1/autosuggest";
         private readonly IHereApiTokenService _hereApiTokenService;
         private readonly HttpClient _httpClient;
-        private readonly ILogger<HereAutosuggestService> _logger; // Logger dependency
+        private readonly ILogger<HereAutosuggestService> _logger;
 
         private readonly double DefaultLatitude = 51.5074;
         private readonly double DefaultLongitude = -0.1278;
 
-        public HereAutosuggestService(IHereApiTokenService hereApiTokenService, HttpClient httpClient, ILogger<HereAutosuggestService> logger) // Include logger in constructor
+        public HereAutosuggestService(IHereApiTokenService hereApiTokenService, HttpClient httpClient, ILogger<HereAutosuggestService> logger)
         {
             _hereApiTokenService = hereApiTokenService ?? throw new ArgumentNullException(nameof(hereApiTokenService));
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
-            _logger = logger; // Initialize the logger
+            _logger = logger;
         }
 
         public async Task<IEnumerable<HotelSuggestion>> GetLocationSuggestions(string keyword, double latitude = 0, double longitude = 0)
@@ -63,21 +63,20 @@ namespace HotelComparer.Services
                 }
 
                 string jsonResponse = await response.Content.ReadAsStringAsync();
-                _logger.LogInformation($"Received response from HERE API.");
+                _logger.LogInformation($"Received response from HERE API: {jsonResponse}");
 
                 var autosuggestData = JsonConvert.DeserializeObject<AutosuggestResponse>(jsonResponse);
 
                 var suggestions = autosuggestData?.Items
-                    .Where(item => !IsHotel(item))
                     .Select(item => new HotelSuggestion
                     {
-                        Id = item.Id,
-                        Name = item.Title,
-                        Latitude = item.Position?.Lat ?? 0,
-                        Longitude = item.Position?.Lng ?? 0,
+                        Id = item.Id.ToString(),
+                        Name = item.Title.ToString(),
+                        Latitude = ConvertToDouble(item.Position?.Lat),
+                        Longitude = ConvertToDouble(item.Position?.Lng),
                         Type = item.ResultType == "locality" ? "Locality" : "Place",
-                        Address = item.Address?.Label,
-                        HotelIds = new List<string>()
+                        Address = item.Address?.Label.ToString(),
+                        // Additional logic can be added here to handle other fields as needed
                     })
                     .ToList() ?? new List<HotelSuggestion>();
 
@@ -90,10 +89,10 @@ namespace HotelComparer.Services
             }
         }
 
-        private bool IsHotel(AutosuggestItem item)
+        private double ConvertToDouble(double? value)
         {
-            return item.ResultType == "chainQuery" ||
-                   item.Categories?.Any(cat => cat.Name.ToLower().Contains("hotel")) == true;
+            // Convert double? to double
+            return value ?? 0.0;
         }
     }
 
