@@ -69,6 +69,10 @@ namespace HotelComparer.Services
             }
 
             var responses = await Task.WhenAll(tasks);
+            foreach (var response in responses)
+            {
+                _logger.LogInformation($"Received response from Amadeus API for URL: {response}");
+            }
             return responses;
         }
 
