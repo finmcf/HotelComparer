@@ -1,38 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using HotelComparer.Models;
+using Microsoft.Extensions.Logging;
 
 namespace HotelComparer.Services
 {
     public class AmadeusApiService : IAmadeusApiService
     {
         private const string AMADEUS_API_URL = "https://test.api.amadeus.com/v3/shopping/hotel-offers";
+        private const string AMADEUS_HOTEL_LIST_API_URL = "https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-geocode";
         private readonly IAmadeusApiTokenService _amadeusApiTokenService;
-        private static SemaphoreSlim _semaphore = new SemaphoreSlim(10); // Control concurrency
+        private static SemaphoreSlim _semaphore = new SemaphoreSlim(10);
+        private readonly ILogger<AmadeusApiService> _logger;
 
-        public AmadeusApiService(IAmadeusApiTokenService amadeusApiTokenService)
+        public AmadeusApiService(IAmadeusApiTokenService amadeusApiTokenService, ILogger<AmadeusApiService> logger)
         {
             _amadeusApiTokenService = amadeusApiTokenService;
+            _logger = logger;
         }
 
         public async Task<IEnumerable<string>> GetAmadeusResponses(HotelSearchRequest request)
         {
+            _logger.LogInformation("Starting GetAmadeusResponses method.");
             string accessToken = _amadeusApiTokenService.GetCachedAccessToken();
             if (string.IsNullOrEmpty(accessToken))
             {
+                _logger.LogInformation("Access token not cached, obtaining new access token.");
                 accessToken = await _amadeusApiTokenService.GetAccessTokenAsync();
             }
 
             if (string.IsNullOrEmpty(accessToken))
             {
+                _logger.LogError("Failed to obtain an access token.");
                 throw new InvalidOperationException("Failed to obtain an access token.");
             }
 
-            var urls = GenerateUrls(request);
+            List<string> hotelIds = new List<string>();
+            if (request.HotelIds.Any())
+            {
+                _logger.LogInformation($"Hotel IDs provided in request: {string.Join(", ", request.HotelIds)}");
+                hotelIds.AddRange(request.HotelIds);
+                if (request.HasLatLng())
+                {
+                    _logger.LogInformation($"Request has latitude and longitude: {request.Latitude}, {request.Longitude}");
+                    var nearbyHotelIds = await GetNearbyHotelIds(request.Latitude, request.Longitude, request.Radius, accessToken);
+                    hotelIds = hotelIds.Union(nearbyHotelIds).ToList();
+                }
+            }
+            else if (request.HasLatLng())
+            {
+                _logger.LogInformation($"Request has only latitude and longitude: {request.Latitude}, {request.Longitude}");
+                hotelIds = await GetNearbyHotelIds(request.Latitude, request.Longitude, request.Radius, accessToken);
+            }
+
+            TrimHotelList(ref hotelIds, request.MaxHotels);
+            var urls = GenerateUrlsWithHotelIds(hotelIds, request);
             var tasks = new List<Task<string>>();
 
             foreach (var url in urls)
@@ -44,38 +72,36 @@ namespace HotelComparer.Services
             return responses;
         }
 
-        private IEnumerable<string> GenerateUrls(HotelSearchRequest request)
+        private async Task<List<string>> GetNearbyHotelIds(double latitude, double longitude, int radius, string accessToken)
         {
-            ValidateRequestDates(request);
+            _logger.LogInformation($"Fetching nearby hotel IDs with Latitude: {latitude}, Longitude: {longitude}, Radius: {radius}");
+            var hotelListUrl = $"{AMADEUS_HOTEL_LIST_API_URL}?latitude={latitude}&longitude={longitude}&radius={radius}&radiusUnit=KM";
+            var response = await SendRequestToAmadeusAsync(hotelListUrl, accessToken);
+            _logger.LogInformation($"Response from GetNearbyHotelIds: {response}");
+            var hotelListResponse = JsonConvert.DeserializeObject<HotelListResponse>(response);
+            var hotelIds = hotelListResponse.Data.Select(h => h.HotelId).ToList();
+            return hotelIds;
+        }
 
+        private IEnumerable<string> GenerateUrlsWithHotelIds(List<string> hotelIds, HotelSearchRequest request)
+        {
             var dateRanges = GenerateDateRanges(request.CheckInDate.Value, request.CheckOutDate.Value);
             var urls = new List<string>();
-            string hotels = string.Join(",", request.HotelIds);
 
             foreach (var dateRange in dateRanges)
             {
-                var url = $"{AMADEUS_API_URL}?hotelIds={hotels}&adults={request.Adults}&checkInDate={dateRange.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&checkOutDate={dateRange.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&countryOfResidence={request.CountryOfResidence}&roomQuantity={request.RoomQuantity}&priceRange={request.PriceRange}&currency={request.Currency}&paymentPolicy={request.PaymentPolicy}&boardType={request.BoardType}&includeClosed={request.IncludeClosed.ToString().ToLower()}&bestRateOnly={request.BestRateOnly.ToString().ToLower()}&lang={request.Language}";
+                var url = $"{AMADEUS_API_URL}?hotelIds={string.Join(",", hotelIds)}&adults={request.Adults}&checkInDate={dateRange.Item1.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&checkOutDate={dateRange.Item2.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)}&countryOfResidence={request.CountryOfResidence}&roomQuantity={request.RoomQuantity}&priceRange={request.PriceRange}&currency={request.Currency}&paymentPolicy={request.PaymentPolicy}&boardType={request.BoardType}&includeClosed={request.IncludeClosed.ToString().ToLower()}&bestRateOnly={request.BestRateOnly.ToString().ToLower()}&lang={request.Language}";
                 urls.Add(url);
             }
 
             return urls;
         }
 
-        private void ValidateRequestDates(HotelSearchRequest request)
+        private void TrimHotelList(ref List<string> hotelIds, int maxHotels)
         {
-            if (!request.CheckInDate.HasValue || !request.CheckOutDate.HasValue)
+            if (hotelIds.Count > maxHotels)
             {
-                throw new ArgumentNullException("Check-in and Check-out dates cannot be null.");
-            }
-
-            if (request.CheckInDate.Value.Date < DateTime.UtcNow.Date)
-            {
-                throw new ArgumentException("Check-in date cannot be in the past.");
-            }
-
-            if (request.CheckInDate.Value >= request.CheckOutDate.Value)
-            {
-                throw new ArgumentException("Check-in date must be before Check-out date.");
+                hotelIds = hotelIds.Take(maxHotels).ToList();
             }
         }
 
@@ -100,7 +126,7 @@ namespace HotelComparer.Services
 
             try
             {
-                await Task.Delay(200); // Simulate a delay for throttling
+                await Task.Delay(200);
                 return await SendRequestToAmadeusAsync(url, accessToken);
             }
             finally
@@ -111,6 +137,7 @@ namespace HotelComparer.Services
 
         private async Task<string> SendRequestToAmadeusAsync(string url, string accessToken)
         {
+            _logger.LogInformation($"Sending request to Amadeus API: {url}");
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Authorization =
@@ -120,13 +147,26 @@ namespace HotelComparer.Services
                 {
                     HttpResponseMessage response = await client.GetAsync(url);
                     response.EnsureSuccessStatusCode();
-                    return await response.Content.ReadAsStringAsync();
+                    var content = await response.Content.ReadAsStringAsync();
+                    _logger.LogInformation($"Received response from Amadeus API.");
+                    return content;
                 }
                 catch (HttpRequestException e)
                 {
-                    throw new Exception($"Request error for URL {url}: {e.Message}");
+                    _logger.LogError($"Request error for URL {url}: {e.Message}");
+                    throw;
                 }
             }
+        }
+
+        private class HotelListResponse
+        {
+            public List<HotelData> Data { get; set; }
+        }
+
+        private class HotelData
+        {
+            public string HotelId { get; set; }
         }
     }
 }
