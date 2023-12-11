@@ -42,100 +42,59 @@ namespace HotelComparer.Services
                 }
             }
 
-            var groupedHotelOffers = allHotelsData.GroupBy(h => h.Hotel.HotelId).Select(group =>
-            {
-                var offers = group.SelectMany(g => g.Offers).ToList();
-                var (cheapestCombination, cheapestOfferIds) = OfferCombinations.GetCheapestValidCombination(
-                    offers,
-                    request.CheckInDate.Value,
-                    request.CheckOutDate.Value);
-
-                return new HotelOfferData
+            var validHotelOffers = allHotelsData
+                .Select(hotel =>
                 {
-                    Hotel = group.First().Hotel,
-                    Offers = offers,
-                    CheapestCombination = cheapestCombination,
-                    CheapestOfferIds = cheapestOfferIds,
-                    Self = group.First().Self
-                };
-            }).ToList();
+                    var (cheapestCombination, cheapestOfferIds) = OfferCombinations.GetCheapestValidCombination(
+                        hotel.Offers,
+                        request.CheckInDate.Value,
+                        request.CheckOutDate.Value);
 
-            return groupedHotelOffers;
+                    if (cheapestCombination == -1 || cheapestOfferIds == null || !cheapestOfferIds.Any())
+                    {
+                        return null; // Exclude hotels without a valid combination
+                    }
+
+                    var validOffers = hotel.Offers.Where(offer => cheapestOfferIds.Contains(offer.Id)).ToList();
+
+                    return new HotelOfferData
+                    {
+                        Hotel = hotel.Hotel,
+                        Offers = validOffers,
+                        CheapestCombination = cheapestCombination,
+                        CheapestOfferIds = cheapestOfferIds,
+                        Self = hotel.Self
+                    };
+                })
+                .Where(hotel => hotel != null) // Exclude null entries
+                .ToList();
+
+            return validHotelOffers;
         }
 
         private IEnumerable<HotelOfferData> ExtractHotelsFromResponse(string jsonResponse)
         {
             var responseObj = JsonConvert.DeserializeObject<AmadeusApiResponse>(jsonResponse);
+
+            // Convert currency rates
             var conversionRate = Convert.ToDouble(responseObj.Dictionaries.CurrencyConversionLookupRates["GBP"].Rate);
 
-            return responseObj.Data.Select(data => new HotelOfferData
+            // Apply conversion rate to each price in each offer
+            foreach (var hotelData in responseObj.Data)
             {
-                Hotel = new HotelInfo
+                foreach (var offer in hotelData.Offers)
                 {
-                    HotelId = data.Hotel.HotelId,
-                    Name = data.Hotel.Name,
-                    ChainCode = data.Hotel.ChainCode,
-                    CityCode = data.Hotel.CityCode,
-                    Latitude = data.Hotel.Latitude,
-                    Longitude = data.Hotel.Longitude
-                },
-                Self = data.Self,
-                Offers = data.Offers.Select(offer => new HotelOffer
-                {
-                    Id = offer.Id,
-                    CheckInDate = offer.CheckInDate,
-                    CheckOutDate = offer.CheckOutDate,
-                    RateCode = offer.RateCode,
-                    Room = new HotelRoom
+                    offer.Price.Base = (Convert.ToDouble(offer.Price.Base) * conversionRate).ToString();
+                    offer.Price.Total = (Convert.ToDouble(offer.Price.Total) * conversionRate).ToString();
+                    offer.Price.Variations.Average.Base = (Convert.ToDouble(offer.Price.Variations.Average.Base) * conversionRate).ToString();
+                    foreach (var change in offer.Price.Variations.Changes)
                     {
-                        Type = offer.Room.Type,
-                        TypeEstimated = new TypeEstimated
-                        {
-                            Category = offer.Room.TypeEstimated.Category,
-                            Beds = offer.Room.TypeEstimated.Beds,
-                            BedType = offer.Room.TypeEstimated.BedType
-                        },
-                        Description = new RoomDescription
-                        {
-                            Text = offer.Room.Description.Text,
-                            Lang = offer.Room.Description.Lang
-                        }
-                    },
-                    Guests = new GuestInfo
-                    {
-                        Adults = offer.Guests.Adults
-                    },
-                    Price = new HotelPrice
-                    {
-                        Currency = offer.Price.Currency,
-                        Base = (Convert.ToDouble(offer.Price.Base) * conversionRate).ToString(),
-                        Total = (Convert.ToDouble(offer.Price.Total) * conversionRate).ToString(),
-                        Variations = new PriceVariations
-                        {
-                            Average = new AveragePrice
-                            {
-                                Base = (Convert.ToDouble(offer.Price.Variations.Average.Base) * conversionRate).ToString()
-                            },
-                            Changes = offer.Price.Variations.Changes.Select(change => new PriceChange
-                            {
-                                StartDate = change.StartDate,
-                                EndDate = change.EndDate,
-                                Total = (Convert.ToDouble(change.Total) * conversionRate).ToString()
-                            }).ToList()
-                        }
-                    },
-                    Policies = new PolicyInfo
-                    {
-                        PaymentType = offer.Policies.PaymentType,
-                        Cancellations = offer.Policies.Cancellations.Select(policy => new CancellationPolicy
-                        {
-                            Amount = (Convert.ToDouble(policy.Amount) * conversionRate).ToString(),
-                            Deadline = policy.Deadline
-                        }).ToList()
-                    },
-                    Self = offer.Self
-                }).ToList()
-            }).ToList();
+                        change.Total = (Convert.ToDouble(change.Total) * conversionRate).ToString();
+                    }
+                }
+            }
+
+            return responseObj.Data;
         }
     }
 
@@ -148,8 +107,12 @@ namespace HotelComparer.Services
             List<string>[,] selectedOffers = new List<string>[days, days];
 
             for (int i = 0; i < days; i++)
+            {
                 for (int j = 0; j < days; j++)
+                {
                     dp[i, j] = double.MaxValue;
+                }
+            }
 
             foreach (var offer in offers)
             {

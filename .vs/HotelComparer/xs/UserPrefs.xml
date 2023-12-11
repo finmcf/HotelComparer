@@ -5,50 +5,51 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.HotelComparer PreferredExecutionTarget="/Applications/Google Chrome.app" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Models/HotelAutocompleteResult.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Middleware/ApiKeyMiddleware.cs">
     <Files>
-      <File FileName="Program.cs" />
+      <File FileName="Program.cs" Line="1" Column="1" />
       <File FileName="HotelComparer.csproj" />
       <File FileName="Controllers/HotelsController.cs" Line="1" Column="1" />
       <File FileName="Models/HotelSearchRequest.cs" />
       <File FileName="Services/IAmadeusApiService.cs" />
-      <File FileName="Services/AmadeusApiService.cs" />
+      <File FileName="Services/AmadeusApiService.cs" Line="1" Column="1" />
       <File FileName="appsettings.json" />
       <File FileName="Services/IAmadeusApiTokenService.cs" />
       <File FileName="Models/AmadeusApiTokenResponse.cs" />
-      <File FileName="Services/AmadeusApiTokenService.cs" />
+      <File FileName="Services/AmadeusApiTokenService.cs" Line="1" Column="1" />
       <File FileName="Services/IHotelDataService.cs" />
-      <File FileName="Services/HotelDataService.cs" />
+      <File FileName="Services/HotelDataService.cs" Line="1" Column="1" />
       <File FileName="Models/AmadeusResponseModels.cs" />
       <File FileName="Properties/launchSettings.json" />
       <File FileName="Examples/HotelOffersExample.cs" />
       <File FileName="SampleResponses/HotelSampleResponse.json" />
-      <File FileName="Middleware/ApiKeyMiddleware.cs" />
+      <File FileName="Middleware/ApiKeyMiddleware.cs" Line="16" Column="1" />
       <File FileName="Data/ApiDbContext.cs" />
-      <File FileName="Services/AmadeusAutocompleteService.cs" Line="98" Column="1" />
-      <File FileName="Services/IAmadeusAutocompleteService.cs" />
-      <File FileName="Models/HotelAutocompleteResult.cs" Line="2" Column="2" />
+      <File FileName="Services/AmadeusAutocompleteService.cs" Line="1" Column="1" />
+      <File FileName="Services/IAmadeusAutocompleteService.cs" Line="1" Column="1" />
+      <File FileName="Models/HotelAutocompleteResult.cs" />
       <File FileName="Models/ApiKey.cs" />
-      <File FileName="Controllers/AutocompleteController.cs" Line="1" Column="1" />
+      <File FileName="Controllers/AutocompleteController.cs" />
       <File FileName="../../../../../../.microsoft/usersecrets/5c8377b2-60a3-4a1f-8a2d-8e74f265fe0d/secrets.json" />
-      <File FileName="Services/HereApiTokenService.cs" />
+      <File FileName="Services/HereApiTokenService.cs" Line="1" Column="1" />
       <File FileName="Services/HereAutosuggestService.cs" Line="1" Column="1" />
-      <File FileName="Models/AutosuggestResponse.cs" Line="132" Column="2" />
-      <File FileName="Models/HotelSuggestion.cs" />
-      <File FileName="Services/CombinedResponsesService.cs" Line="115" Column="1" />
+      <File FileName="Models/AutosuggestResponse.cs" />
+      <File FileName="Models/HotelSuggestion.cs" Line="1" Column="1" />
+      <File FileName="Services/CombinedResponsesService.cs" Line="1" Column="1" />
       <File FileName="appsettings.Development.json" />
+      <File FileName="Models/HereApiTokenResponse.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="HotelComparer">
-            <Node name="HotelComparer" expanded="True">
+            <Node name="HotelComparer">
               <Node name="Controllers" expanded="True" />
               <Node name="Data" expanded="True" />
-              <Node name="Middleware" expanded="True" />
-              <Node name="Models" expanded="True">
-                <Node name="HotelAutocompleteResult.cs" selected="True" />
+              <Node name="Middleware" expanded="True">
+                <Node name="ApiKeyMiddleware.cs" selected="True" />
               </Node>
+              <Node name="Models" expanded="True" />
               <Node name="Properties" expanded="True" />
               <Node name="Services" expanded="True" />
               <Node name="appsettings.json" expanded="True" />
