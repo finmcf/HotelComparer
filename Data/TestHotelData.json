@@ -1,0 +1,608 @@
+﻿[
+  {
+    "data": [
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBLOASIS",
+          "chainCode": "DL",
+          "name": "Dubai Luxury Oasis Hotel",
+          "cityCode": "DXB",
+          "latitude": 25.276987,
+          "longitude": 55.296249
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDL123",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-22",
+            "rateCode": "RAC",
+            "room": {
+              "type": "DELUXE",
+              "typeEstimated": {
+                "category": "DELUXE_ROOM",
+                "beds": 1,
+                "bedType": "KING"
+              },
+              "description": {
+                "text": "Deluxe King Room with Ocean View, 1 King Bed",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "1200.00",
+              "total": "1320.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "300.00",
+                  "deadline": "2024-02-19T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDL123"
+          }
+        ]
+      },
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBMIRAGE",
+          "chainCode": "DM",
+          "name": "Dubai Mirage Resort",
+          "cityCode": "DXB",
+          "latitude": 25.204849,
+          "longitude": 55.270782
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDM234",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-22",
+            "rateCode": "RAC",
+            "room": {
+              "type": "SUITE",
+              "typeEstimated": {
+                "category": "JUNIOR_SUITE",
+                "beds": 1,
+                "bedType": "QUEEN"
+              },
+              "description": {
+                "text": "Junior Suite with City View, 1 Queen Bed",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "950.00",
+              "total": "1045.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "250.00",
+                  "deadline": "2024-02-18T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDM234"
+          }
+        ]
+      },
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBPALMGW",
+          "chainCode": "DPG",
+          "name": "Dubai Palm Gateway Hotel",
+          "cityCode": "DXB",
+          "latitude": 25.112354,
+          "longitude": 55.139030
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDPG345",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-22",
+            "rateCode": "RAC",
+            "room": {
+              "type": "STANDARD",
+              "typeEstimated": {
+                "category": "STANDARD_ROOM",
+                "beds": 2,
+                "bedType": "SINGLE"
+              },
+              "description": {
+                "text": "Standard Twin Room, 2 Single Beds, Garden View",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "800.00",
+              "total": "880.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "200.00",
+                  "deadline": "2024-02-18T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDPG345"
+          }
+        ]
+      },
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBSAPPHIRE",
+          "chainCode": "DS",
+          "name": "Dubai Sapphire Oasis",
+          "cityCode": "DXB",
+          "latitude": 25.267406,
+          "longitude": 55.292709
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDS678",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-22",
+            "rateCode": "RAC",
+            "room": {
+              "type": "DELUXE",
+              "typeEstimated": {
+                "category": "DELUXE_ROOM",
+                "beds": 1,
+                "bedType": "KING"
+              },
+              "description": {
+                "text": "Deluxe King Room with Sea View, 1 King Bed",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "1200.00",
+              "total": "1320.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "300.00",
+                  "deadline": "2024-02-19T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDS678"
+          }
+        ]
+      }
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBMARINAELITE",
+          "chainCode": "DME",
+          "name": "Dubai Marina Elite Hotel",
+          "cityCode": "DXB",
+          "latitude": 25.080541,
+          "longitude": 55.140343
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDME789",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-22",
+            "rateCode": "RAC",
+            "room": {
+              "type": "EXECUTIVE",
+              "typeEstimated": {
+                "category": "EXECUTIVE_SUITE",
+                "beds": 1,
+                "bedType": "KING"
+              },
+              "description": {
+                "text": "Executive Suite with Marina View, 1 King Bed",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "1800.00",
+              "total": "1980.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "450.00",
+                  "deadline": "2024-02-18T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDME789"
+          }
+        ]
+      },
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBMARINAELITE",
+          "chainCode": "DME",
+          "name": "Dubai Marina Elite Hotel",
+          "cityCode": "DXB",
+          "latitude": 25.080541,
+          "longitude": 55.140343
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDME789",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-22",
+            "rateCode": "RAC",
+            "room": {
+              "type": "EXECUTIVE",
+              "typeEstimated": {
+                "category": "EXECUTIVE_SUITE",
+                "beds": 1,
+                "bedType": "KING"
+              },
+              "description": {
+                "text": "Executive Suite with Marina View, 1 King Bed",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "1800.00",
+              "total": "1980.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "450.00",
+                  "deadline": "2024-02-18T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDME789"
+          }
+        ]
+      }
+
+
+
+
+      // Responses for additional hotels (HOTEL2, HOTEL3, HOTEL4, HOTEL5) would follow a similar structure.
+    ],
+    "dictionaries": {
+      "currencyConversionLookupRates": {
+        "AED": {
+          "rate": "0.27",
+          "target": "USD",
+          "targetDecimalPlaces": 2
+        }
+      }
+    }
+  },
+
+
+
+
+
+  {
+    "data": [
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBLOASIS",
+          "chainCode": "DL",
+          "name": "Dubai Luxury Oasis Hotel",
+          "cityCode": "DXB",
+          "latitude": 25.276987,
+          "longitude": 55.296249
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDL123-21",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-23",
+            "rateCode": "RAC",
+            "room": {
+              "type": "DELUXE",
+              "typeEstimated": {
+                "category": "DELUXE_ROOM",
+                "beds": 1,
+                "bedType": "KING"
+              },
+              "description": {
+                "text": "Deluxe King Room with Ocean View, 1 King Bed, 2-night stay",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "2300.00",
+              "total": "2530.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "575.00",
+                  "deadline": "2024-02-19T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDL123-21"
+          }
+        ]
+      },
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBMIRAGE",
+          "chainCode": "DM",
+          "name": "Dubai Mirage Resort",
+          "cityCode": "DXB",
+          "latitude": 25.204849,
+          "longitude": 55.270782
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDM234-21",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-23",
+            "rateCode": "RAC",
+            "room": {
+              "type": "SUITE",
+              "typeEstimated": {
+                "category": "JUNIOR_SUITE",
+                "beds": 1,
+                "bedType": "QUEEN"
+              },
+              "description": {
+                "text": "Junior Suite with City View, 1 Queen Bed, 2-night stay",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "1800.00",
+              "total": "1980.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "450.00",
+                  "deadline": "2024-02-19T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDM234-21"
+          }
+        ]
+      },
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBPALMGW",
+          "chainCode": "DPG",
+          "name": "Dubai Palm Gateway Hotel",
+          "cityCode": "DXB",
+          "latitude": 25.112354,
+          "longitude": 55.139030
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDPG345-21",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-23",
+            "rateCode": "RAC",
+            "room": {
+              "type": "STANDARD",
+              "typeEstimated": {
+                "category": "STANDARD_ROOM",
+                "beds": 2,
+                "bedType": "SINGLE"
+              },
+              "description": {
+                "text": "Standard Twin Room, 2 Single Beds, Garden View, 2-night stay",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "1500.00",
+              "total": "1650.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "375.00",
+                  "deadline": "2024-02-19T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDPG345-21"
+          }
+        ]
+      },
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBSAPPHIRE",
+          "chainCode": "DS",
+          "name": "Dubai Sapphire Oasis",
+          "cityCode": "DXB",
+          "latitude": 25.267406,
+          "longitude": 55.292709
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDS678-21",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-23",
+            "rateCode": "RAC",
+            "room": {
+              "type": "DELUXE",
+              "typeEstimated": {
+                "category": "DELUXE_ROOM",
+                "beds": 1,
+                "bedType": "KING"
+              },
+              "description": {
+                "text": "Deluxe King Room with Sea View, 1 King Bed, 2-night stay",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "2300.00",
+              "total": "2530.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "575.00",
+                  "deadline": "2024-02-19T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDS678-21"
+          }
+        ]
+      },
+      {
+        "type": "hotel-offers",
+        "hotel": {
+          "type": "hotel",
+          "hotelId": "DUBMARINAELITE",
+          "chainCode": "DME",
+          "name": "Dubai Marina Elite Hotel",
+          "cityCode": "DXB",
+          "latitude": 25.080541,
+          "longitude": 55.140343
+        },
+        "available": true,
+        "offers": [
+          {
+            "id": "OFFERDME789-21",
+            "checkInDate": "2024-02-21",
+            "checkOutDate": "2024-02-23",
+            "rateCode": "RAC",
+            "room": {
+              "type": "EXECUTIVE",
+              "typeEstimated": {
+                "category": "EXECUTIVE_SUITE",
+                "beds": 1,
+                "bedType": "KING"
+              },
+              "description": {
+                "text": "Executive Suite with Marina View, 1 King Bed, 2-night stay",
+                "lang": "EN"
+              }
+            },
+            "guests": {
+              "adults": 2
+            },
+            "price": {
+              "currency": "AED",
+              "base": "3500.00",
+              "total": "3850.00"
+            },
+            "policies": {
+              "cancellations": [
+                {
+                  "amount": "875.00",
+                  "deadline": "2024-02-19T00:00:00"
+                }
+              ],
+              "paymentType": "deposit"
+            },
+            "self": "https://api.example.com/hotel-offers/OFFERDME789-21"
+          }
+        ]
+      }
+    ],
+    "dictionaries": {
+      "currencyConversionLookupRates": {
+        "AED": {
+          "rate": "0.27",
+          "target": "USD",
+          "targetDecimalPlaces": 2
+        }
+      }
+    }
+  }
+
+
+
+
+
+
+
+
+  
+]

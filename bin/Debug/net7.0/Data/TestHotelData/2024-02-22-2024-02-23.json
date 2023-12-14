@@ -1,0 +1,364 @@
+﻿{
+  "data": [
+    {
+      "type": "hotel-offers",
+      "hotel": {
+        "type": "hotel",
+        "hotelId": "DUBLOASIS",
+        "chainCode": "DL",
+        "name": "Dubai Luxury Oasis Hotel",
+        "cityCode": "DXB",
+        "latitude": 25.276987,
+        "longitude": 55.296249
+        // "dupeId": "12345" // Include this if needed
+      },
+      "available": true,
+      "offers": [
+        {
+          "id": "OFFERDL128",
+          "checkInDate": "2024-02-22",
+          "checkOutDate": "2024-02-23",
+          "rateCode": "RAC",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "RATE_TYPE"
+          },
+          "room": {
+            "type": "DELUXE",
+            "typeEstimated": {
+              "category": "DELUXE_ROOM",
+              "beds": 1,
+              "bedType": "KING"
+            },
+            "description": {
+              "text": "Deluxe King Room with Ocean View, 1 King Bed",
+              "lang": "EN"
+            }
+          },
+          "guests": {
+            "adults": 2
+          },
+          "price": {
+            "currency": "AED",
+            "base": "1224.00",
+            "total": "1346.00",
+            "variations": {
+              "average": {
+                "base": "1224.00"
+              },
+              "changes": [
+                {
+                  "startDate": "2024-02-21",
+                  "endDate": "2024-02-22",
+                  "total": "1346.00"
+                }
+              ]
+            }
+          },
+          "policies": {
+            "cancellations": [
+              {
+                "description": {
+                  "text": "Cancellation policy details here",
+                  "type": "FULL_STAY"
+                }
+              }
+            ],
+            "paymentType": "deposit"
+          },
+          "self": "https://api.example.com/hotel-offers/OFFERDL123"
+        }
+      ]
+    },
+    {
+      "type": "hotel-offers",
+      "hotel": {
+        "type": "hotel",
+        "hotelId": "DUBARIA",
+        "chainCode": "DA",
+        "name": "Arabian Nights Hotel",
+        "cityCode": "DXB",
+        "latitude": 25.245987,
+        "longitude": 55.308249
+      },
+      "available": true,
+      "offers": [
+        {
+          "id": "OFFERDA461",
+          "checkInDate": "2024-02-22",
+          "checkOutDate": "2024-02-23",
+          "rateCode": "RAC",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "RATE_TYPE"
+          },
+          "room": {
+            "type": "SUITE",
+            "typeEstimated": {
+              "category": "ROYAL_SUITE",
+              "beds": 1,
+              "bedType": "QUEEN"
+            },
+            "description": {
+              "text": "Royal Queen Suite with City View, 1 Queen Bed",
+              "lang": "EN"
+            }
+          },
+          "guests": {
+            "adults": 2
+          },
+          "price": {
+            "currency": "AED",
+            "base": "1428.00",
+            "total": "1570.80",
+            "variations": {
+              "average": {
+                "base": "1428.00"
+              },
+              "changes": [
+                {
+                  "startDate": "2024-02-21",
+                  "endDate": "2024-02-22",
+                  "total": "1570.80"
+                }
+              ]
+            }
+          },
+          "policies": {
+            "cancellations": [
+              {
+                "description": {
+                  "text": "Flexible cancellation policy",
+                  "type": "FLEXIBLE"
+                }
+              }
+            ],
+            "paymentType": "deposit"
+          },
+          "self": "https://api.example.com/hotel-offers/OFFERDA456"
+        }
+      ]
+    },
+    {
+      "type": "hotel-offers",
+      "hotel": {
+        "type": "hotel",
+        "hotelId": "DUBCITYZEN",
+        "chainCode": "DC",
+        "name": "Dubai City Zen Resort",
+        "cityCode": "DXB",
+        "latitude": 25.221984,
+        "longitude": 55.279251
+      },
+      "available": true,
+      "offers": [
+        {
+          "id": "OFFERDC794",
+          "checkInDate": "2024-02-22",
+          "checkOutDate": "2024-02-23",
+          "rateCode": "RAC",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "RATE_TYPE"
+          },
+          "room": {
+            "type": "EXECUTIVE",
+            "typeEstimated": {
+              "category": "EXECUTIVE_SUITE",
+              "beds": 1,
+              "bedType": "KING"
+            },
+            "description": {
+              "text": "Executive King Suite with Skyline View, 1 King Bed",
+              "lang": "EN"
+            }
+          },
+          "guests": {
+            "adults": 2
+          },
+          "price": {
+            "currency": "AED",
+            "base": "1632.00",
+            "total": "1795.20",
+            "variations": {
+              "average": {
+                "base": "1632.00"
+              },
+              "changes": [
+                {
+                  "startDate": "2024-02-21",
+                  "endDate": "2024-02-22",
+                  "total": "1795.20"
+                }
+              ]
+            }
+          },
+          "policies": {
+            "cancellations": [
+              {
+                "description": {
+                  "text": "Early bird discount, non-refundable",
+                  "type": "NON_REFUNDABLE"
+                }
+              }
+            ],
+            "paymentType": "prepaid"
+          },
+          "self": "https://api.example.com/hotel-offers/OFFERDC789"
+        }
+      ]
+    },
+    {
+      "type": "hotel-offers",
+      "hotel": {
+        "type": "hotel",
+        "hotelId": "DUBSKYLINE",
+        "chainCode": "DSK",
+        "name": "Dubai Skyline Tower",
+        "cityCode": "DXB",
+        "latitude": 25.243982,
+        "longitude": 55.312210
+      },
+      "available": true,
+      "offers": [
+        {
+          "id": "OFFERDSK461",
+          "checkInDate": "2024-02-22",
+          "checkOutDate": "2024-02-23",
+          "rateCode": "RAC",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "RATE_TYPE"
+          },
+          "room": {
+            "type": "PENTHOUSE",
+            "typeEstimated": {
+              "category": "PENTHOUSE_SUITE",
+              "beds": 2,
+              "bedType": "QUEEN"
+            },
+            "description": {
+              "text": "Penthouse Queen Suite with Panoramic City View, 2 Queen Beds",
+              "lang": "EN"
+            }
+          },
+          "guests": {
+            "adults": 4
+          },
+          "price": {
+            "currency": "AED",
+            "base": "2244.00",
+            "total": "2468.40",
+            "variations": {
+              "average": {
+                "base": "2244.00"
+              },
+              "changes": [
+                {
+                  "startDate": "2024-02-21",
+                  "endDate": "2024-02-22",
+                  "total": "2468.40"
+                }
+              ]
+            }
+          },
+          "policies": {
+            "cancellations": [
+              {
+                "description": {
+                  "text": "Free cancellation up to 48 hours before check-in",
+                  "type": "FLEXIBLE"
+                }
+              }
+            ],
+            "paymentType": "pay_at_property"
+          },
+          "self": "https://api.example.com/hotel-offers/OFFERDSK456"
+        }
+      ]
+    },
+    {
+      "type": "hotel-offers",
+      "hotel": {
+        "type": "hotel",
+        "hotelId": "DUBPALMGARDEN",
+        "chainCode": "DPG",
+        "name": "Dubai Palm Garden Resort",
+        "cityCode": "DXB",
+        "latitude": 25.204939,
+        "longitude": 55.270774
+      },
+      "available": true,
+      "offers": [
+        {
+          "id": "OFFERDPG683",
+          "checkInDate": "2024-02-22",
+          "checkOutDate": "2024-02-23",
+          "rateCode": "RAC",
+          "rateFamilyEstimated": {
+            "code": "RAC",
+            "type": "RATE_TYPE"
+          },
+          "room": {
+            "type": "BUNGALOW",
+            "typeEstimated": {
+              "category": "BEACHFRONT_BUNGALOW",
+              "beds": 1,
+              "bedType": "KING"
+            },
+            "description": {
+              "text": "Beachfront Bungalow with Private Patio, 1 King Bed",
+              "lang": "EN"
+            }
+          },
+          "guests": {
+            "adults": 2
+          },
+          "price": {
+            "currency": "AED",
+            "base": "1836.00",
+            "total": "2019.60",
+            "variations": {
+              "average": {
+                "base": "1836.00"
+              },
+              "changes": [
+                {
+                  "startDate": "2024-02-21",
+                  "endDate": "2024-02-22",
+                  "total": "2019.60"
+                }
+              ]
+            }
+          },
+          "policies": {
+            "cancellations": [
+              {
+                "description": {
+                  "text": "Non-refundable rate",
+                  "type": "NON_REFUNDABLE"
+                }
+              }
+            ],
+            "paymentType": "prepaid"
+          },
+          "self": "https://api.example.com/hotel-offers/OFFERDPG678"
+        }
+      ]
+    }
+
+
+
+
+    // ... Additional hotel entries ...
+  ],
+  "dictionaries": {
+    "currencyConversionLookupRates": {
+      "AED": {
+        "rate": "0.27",
+        "target": "USD",
+        "targetDecimalPlaces": 2
+      }
+    }
+  }
+}

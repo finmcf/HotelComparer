@@ -33,6 +33,7 @@
     <None Remove="Middleware\" />
     <None Remove="SampleResponses\" />
     <None Remove="SwaggerExamples\" />
+    <None Remove="Data\TestHotelData\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
@@ -43,6 +44,7 @@
     <Folder Include="Middleware\" />
     <Folder Include="SampleResponses\" />
     <Folder Include="SwaggerExamples\" />
+    <Folder Include="Data\TestHotelData\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="HotelComparer.csproj" />

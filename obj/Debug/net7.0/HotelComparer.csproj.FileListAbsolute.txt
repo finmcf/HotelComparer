@@ -170,3 +170,13 @@
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/obj/Debug/net7.0/HotelComparer.pdb
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/obj/Debug/net7.0/HotelComparer.genruntimeconfig.cache
 /Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/obj/Debug/net7.0/ref/HotelComparer.dll
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-21-2024-02-22.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-21-2024-02-23.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-21-2024-02-24.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-21-2024-02-25.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-21-2024-02-26.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-22-2024-02-23.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-22-2024-02-24.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-22-2024-02-25.json
+/Users/finlay/Dropbox/Mac/Documents/Code/HotelComparerDirectory/HotelComparer/bin/Debug/net7.0/Data/TestHotelData/2024-02-22-2024-02-26.json
