@@ -15,9 +15,9 @@
       "available": true,
       "offers": [
         {
-          "id": "OFFERDL125",
-          "checkInDate": "2024-02-21",
-          "checkOutDate": "2024-02-24",
+          "id": "OFFERDL136",
+          "checkInDate": "2024-02-24",
+          "checkOutDate": "2024-02-26",
           "rateCode": "RAC",
           "rateFamilyEstimated": {
             "code": "RAC",
@@ -40,17 +40,17 @@
           },
           "price": {
             "currency": "AED",
-            "base": "3240.00.00",
-            "total": "3564.00",
+            "base": "2498.00",
+            "total": "2747.80",
             "variations": {
               "average": {
-                "base": "3240.00.00"
+                "base": "2498.00"
               },
               "changes": [
                 {
                   "startDate": "2024-02-21",
                   "endDate": "2024-02-22",
-                  "total": "3564.00"
+                  "total": "2747.80"
                 }
               ]
             }
@@ -84,9 +84,9 @@
       "available": true,
       "offers": [
         {
-          "id": "OFFERDA458",
-          "checkInDate": "2024-02-21",
-          "checkOutDate": "2024-02-24",
+          "id": "OFFERDA469",
+          "checkInDate": "2024-02-24",
+          "checkOutDate": "2024-02-26",
           "rateCode": "RAC",
           "rateFamilyEstimated": {
             "code": "RAC",
@@ -109,17 +109,17 @@
           },
           "price": {
             "currency": "AED",
-            "base": "3990.00",
-            "total": "4401.00",
+            "base": "2916.00",
+            "total": "3207.60",
             "variations": {
               "average": {
-                "base": "3990.00"
+                "base": "2916.00"
               },
               "changes": [
                 {
                   "startDate": "2024-02-21",
                   "endDate": "2024-02-22",
-                  "total": "4401.00"
+                  "total": "3207.60"
                 }
               ]
             }
@@ -153,9 +153,9 @@
       "available": true,
       "offers": [
         {
-          "id": "OFFERDC791",
-          "checkInDate": "2024-02-21",
-          "checkOutDate": "2024-02-24",
+          "id": "OFFERDC802",
+          "checkInDate": "2024-02-24",
+          "checkOutDate": "2024-02-26",
           "rateCode": "RAC",
           "rateFamilyEstimated": {
             "code": "RAC",
@@ -178,17 +178,17 @@
           },
           "price": {
             "currency": "AED",
-            "base": "4080.00",
-            "total": "4488.00",
+            "base": "3402.00",
+            "total": "3742.20",
             "variations": {
               "average": {
-                "base": "4080.00"
+                "base": "3402.00"
               },
               "changes": [
                 {
                   "startDate": "2024-02-21",
                   "endDate": "2024-02-22",
-                  "total": "4488.00"
+                  "total": "3742.20"
                 }
               ]
             }
@@ -222,9 +222,9 @@
       "available": true,
       "offers": [
         {
-          "id": "OFFERDSK458",
-          "checkInDate": "2024-02-21",
-          "checkOutDate": "2024-02-24",
+          "id": "OFFERDSK469",
+          "checkInDate": "2024-02-24",
+          "checkOutDate": "2024-02-26",
           "rateCode": "RAC",
           "rateFamilyEstimated": {
             "code": "RAC",
@@ -247,17 +247,17 @@
           },
           "price": {
             "currency": "AED",
-            "base": "6600.00",
-            "total": "7260.00",
+            "base": "4576.00",
+            "total": "5033.60",
             "variations": {
               "average": {
-                "base": "6600.00"
+                "base": "4576.00"
               },
               "changes": [
                 {
                   "startDate": "2024-02-21",
                   "endDate": "2024-02-22",
-                  "total": "7260.00"
+                  "total": "5033.60"
                 }
               ]
             }
@@ -291,9 +291,9 @@
       "available": true,
       "offers": [
         {
-          "id": "OFFERDPG680",
-          "checkInDate": "2024-02-21",
-          "checkOutDate": "2024-02-24",
+          "id": "OFFERDPG691",
+          "checkInDate": "2024-02-24",
+          "checkOutDate": "2024-02-26",
           "rateCode": "RAC",
           "rateFamilyEstimated": {
             "code": "RAC",
@@ -316,17 +316,17 @@
           },
           "price": {
             "currency": "AED",
-            "base": "4590.00",
-            "total": "5049.00",
+            "base": "3682.00",
+            "total": "4049.00",
             "variations": {
               "average": {
-                "base": "4590.00"
+                "base": "3682.00"
               },
               "changes": [
                 {
                   "startDate": "2024-02-21",
                   "endDate": "2024-02-22",
-                  "total": "5049.00"
+                  "total": "4049.00"
                 }
               ]
             }
