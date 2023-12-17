@@ -11,11 +11,13 @@ namespace HotelComparer.Services
     public class HotelDataService : IHotelDataService
     {
         private readonly IAmadeusApiService _amadeusApiService;
+        private readonly TestHotelDataService _testHotelDataService;
         private readonly ILogger<HotelDataService> _logger;
 
-        public HotelDataService(IAmadeusApiService amadeusApiService, ILogger<HotelDataService> logger)
+        public HotelDataService(IAmadeusApiService amadeusApiService, TestHotelDataService testHotelDataService, ILogger<HotelDataService> logger)
         {
             _amadeusApiService = amadeusApiService ?? throw new ArgumentNullException(nameof(amadeusApiService));
+            _testHotelDataService = testHotelDataService ?? throw new ArgumentNullException(nameof(testHotelDataService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -26,9 +28,17 @@ namespace HotelComparer.Services
                 throw new ArgumentNullException("Check-in and check-out dates are required.");
             }
 
-            var rawResponses = await _amadeusApiService.GetAmadeusResponses(request);
-            var allHotelsData = new List<HotelOfferData>();
+            IEnumerable<string> rawResponses;
+            if (request.UseTestData.HasValue && request.UseTestData.Value)
+            {
+                rawResponses = await _testHotelDataService.GetAllTestHotelDataAsync();
+            }
+            else
+            {
+                rawResponses = await _amadeusApiService.GetAmadeusResponses(request);
+            }
 
+            var allHotelsData = new List<HotelOfferData>();
             foreach (var response in rawResponses)
             {
                 try
@@ -38,68 +48,92 @@ namespace HotelComparer.Services
                 }
                 catch (JsonException ex)
                 {
-                    _logger.LogError(ex, "Error deserializing the response from Amadeus API.");
+                    _logger.LogError(ex, "Error deserializing the response.");
                 }
             }
 
-            var validHotelOffers = allHotelsData
-                .Select(hotel =>
+            return allHotelsData.SelectMany(hotel => ProcessHotelData(hotel, request.CheckInDate.Value, request.CheckOutDate.Value))
+                                .Where(hotel => hotel != null)
+                                .ToList();
+        }
+
+        private IEnumerable<HotelOfferData> ProcessHotelData(HotelOfferData hotelData, DateTime checkInDate, DateTime checkOutDate)
+        {
+            var (cheapestCombination, cheapestOfferIds) = OfferCombinations.GetCheapestValidCombination(hotelData.Offers, checkInDate, checkOutDate);
+
+            if (cheapestCombination == -1 || cheapestOfferIds == null || !cheapestOfferIds.Any())
+            {
+                yield return null;
+            }
+            else
+            {
+                var validOffers = hotelData.Offers.Where(offer => cheapestOfferIds.Contains(offer.Id)).ToList();
+
+                yield return new HotelOfferData
                 {
-                    var (cheapestCombination, cheapestOfferIds) = OfferCombinations.GetCheapestValidCombination(
-                        hotel.Offers,
-                        request.CheckInDate.Value,
-                        request.CheckOutDate.Value);
-
-                    if (cheapestCombination == -1 || cheapestOfferIds == null || !cheapestOfferIds.Any())
-                    {
-                        return null; // Exclude hotels without a valid combination
-                    }
-
-                    var validOffers = hotel.Offers.Where(offer => cheapestOfferIds.Contains(offer.Id)).ToList();
-
-                    return new HotelOfferData
-                    {
-                        Hotel = hotel.Hotel,
-                        Offers = validOffers,
-                        CheapestCombination = cheapestCombination,
-                        CheapestOfferIds = cheapestOfferIds,
-                        Self = hotel.Self
-                    };
-                })
-                .Where(hotel => hotel != null) // Exclude null entries
-                .ToList();
-
-            return validHotelOffers;
+                    Hotel = hotelData.Hotel,
+                    Offers = validOffers,
+                    CheapestCombination = cheapestCombination,
+                    CheapestOfferIds = cheapestOfferIds,
+                    Self = hotelData.Self
+                };
+            }
         }
 
         private IEnumerable<HotelOfferData> ExtractHotelsFromResponse(string jsonResponse)
         {
             var responseObj = JsonConvert.DeserializeObject<AmadeusApiResponse>(jsonResponse);
 
-            // Convert currency rates
-            var conversionRate = Convert.ToDouble(responseObj.Dictionaries.CurrencyConversionLookupRates["GBP"].Rate);
-
-            // Apply conversion rate to each price in each offer
+            var hotelOfferDataList = new List<HotelOfferData>();
             foreach (var hotelData in responseObj.Data)
             {
+                var hotelOfferData = new HotelOfferData
+                {
+                    Hotel = hotelData.Hotel,
+                    Offers = new List<HotelOffer>()
+                };
+
                 foreach (var offer in hotelData.Offers)
                 {
-                    offer.Price.Base = (Convert.ToDouble(offer.Price.Base) * conversionRate).ToString();
-                    offer.Price.Total = (Convert.ToDouble(offer.Price.Total) * conversionRate).ToString();
-                    offer.Price.Variations.Average.Base = (Convert.ToDouble(offer.Price.Variations.Average.Base) * conversionRate).ToString();
-                    foreach (var change in offer.Price.Variations.Changes)
+                    if (responseObj.Dictionaries.CurrencyConversionLookupRates.TryGetValue(offer.Price.Currency, out var conversionInfo))
                     {
-                        change.Total = (Convert.ToDouble(change.Total) * conversionRate).ToString();
+                        double conversionRate = Convert.ToDouble(conversionInfo.Rate);
+
+                        offer.Price.Base = ConvertPrice(offer.Price.Base, conversionRate);
+                        offer.Price.Total = ConvertPrice(offer.Price.Total, conversionRate);
+                        offer.Price.Variations.Average.Base = ConvertPrice(offer.Price.Variations.Average.Base, conversionRate);
+                        foreach (var change in offer.Price.Variations.Changes)
+                        {
+                            change.Total = ConvertPrice(change.Total, conversionRate);
+                        }
                     }
+                    else
+                    {
+                        _logger.LogWarning($"Conversion rate for currency '{offer.Price.Currency}' not found. Skipping conversion.");
+                    }
+
+                    hotelOfferData.Offers.Add(offer);
                 }
+
+                hotelOfferDataList.Add(hotelOfferData);
             }
 
-            return responseObj.Data;
+            return hotelOfferDataList;
+        }
+
+        private string ConvertPrice(string price, double rate)
+        {
+            return (Convert.ToDouble(price) * rate).ToString("F2");
         }
     }
 
-    public class OfferCombinations
+    public static class OfferCombinations
     {
+        public static (double Cost, List<string> OfferIds) GetCheapestValidCombination(List<HotelOffer> offers, DateTime desiredStart, DateTime desiredEnd)
+        {
+            return FindCheapestCombination(offers, desiredStart, desiredEnd);
+        }
+
         private static (double Cost, List<string> OfferIds) FindCheapestCombination(List<HotelOffer> offers, DateTime desiredStart, DateTime desiredEnd)
         {
             int days = (desiredEnd - desiredStart).Days;
@@ -144,11 +178,6 @@ namespace HotelComparer.Services
             }
 
             return (dp[0, days - 1] == double.MaxValue ? -1 : dp[0, days - 1], selectedOffers[0, days - 1]);
-        }
-
-        public static (double, List<string>) GetCheapestValidCombination(List<HotelOffer> offers, DateTime desiredStart, DateTime desiredEnd)
-        {
-            return FindCheapestCombination(offers, desiredStart, desiredEnd);
         }
     }
 }

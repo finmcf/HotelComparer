@@ -40,11 +40,11 @@
           },
           "price": {
             "currency": "AED",
-            "base": "3240.00.00",
+            "base": "3240.00",
             "total": "3564.00",
             "variations": {
               "average": {
-                "base": "3240.00.00"
+                "base": "3240.00"
               },
               "changes": [
                 {

@@ -11,40 +11,51 @@ namespace HotelComparer.Services
         private readonly ILogger<TestHotelDataService> _logger;
         private readonly string _testDataDirectory;
         private readonly List<string> _fileNames;
-        private int _currentFileIndex = 0;
 
-        public TestHotelDataService(ILogger<TestHotelDataService> logger, string testDataDirectory)
+        public TestHotelDataService(ILogger<TestHotelDataService> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _testDataDirectory = testDataDirectory ?? throw new ArgumentNullException(nameof(testDataDirectory));
-
-            _fileNames = GenerateFileNames(new DateTime(2024, 02, 21), new DateTime(2024, 02, 26));
+            _testDataDirectory = Path.Combine(Directory.GetCurrentDirectory(), "data", "TestHotelData");
+            _logger.LogInformation($"Test data directory set to: {_testDataDirectory}");
+            _fileNames = GenerateFileNames();
+            _logger.LogInformation($"Generated file names: {string.Join(", ", _fileNames)}");
         }
 
-        private List<string> GenerateFileNames(DateTime startDate, DateTime endDate)
+        private List<string> GenerateFileNames()
         {
             var fileNames = new List<string>();
+            var startDate = new DateTime(2024, 02, 21);
+            var endDate = new DateTime(2024, 02, 26);
+
             for (var date = startDate; date < endDate; date = date.AddDays(1))
             {
                 for (var nextDate = date.AddDays(1); nextDate <= endDate; nextDate = nextDate.AddDays(1))
                 {
-                    string fileName = $"{date:yyyy-MM-dd}-{nextDate:yyyy-MM-dd}.json";
+                    string fileName = $"2024-{date:MM-dd}-2024-{nextDate:MM-dd}.json";
                     fileNames.Add(fileName);
                 }
             }
             return fileNames;
         }
 
-        public async Task<string> GetNextTestHotelData()
+        public async Task<IEnumerable<string>> GetAllTestHotelDataAsync()
         {
-            if (_currentFileIndex >= _fileNames.Count)
+            var responses = new List<string>();
+            foreach (var fileName in _fileNames)
             {
-                _logger.LogWarning("No more test data files available.");
-                return null;
+                string response = await ReadFileAsync(fileName);
+                if (response != null)
+                {
+                    responses.Add(response);
+                }
             }
+            return responses;
+        }
 
-            string fileName = _fileNames[_currentFileIndex++];
+        private async Task<string> ReadFileAsync(string fileName)
+        {
             string filePath = Path.Combine(_testDataDirectory, fileName);
+            _logger.LogInformation($"Attempting to read file asynchronously: {filePath}");
 
             if (!File.Exists(filePath))
             {
@@ -54,11 +65,13 @@ namespace HotelComparer.Services
 
             try
             {
-                return await File.ReadAllTextAsync(filePath);
+                var fileContent = await File.ReadAllTextAsync(filePath);
+                _logger.LogInformation($"File content of {fileName}: {fileContent}");
+                return fileContent;
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Error reading test data file: {filePath}");
+                _logger.LogError(ex, $"Error reading test data file asynchronously: {filePath}");
                 return null;
             }
         }

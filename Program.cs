@@ -35,6 +35,9 @@ builder.Services.AddScoped<IAmadeusAutocompleteService, AmadeusAutocompleteServi
 builder.Services.AddScoped<IHereAutosuggestService, HereAutosuggestService>(); // Register HereAutosuggestService
 builder.Services.AddScoped<ICombinedResponsesService, CombinedResponsesService>(); // Register CombinedResponsesService
 
+// Register TestHotelDataService
+builder.Services.AddScoped<TestHotelDataService>();
+
 // Configure CORS
 builder.Services.AddCors(options =>
 {
