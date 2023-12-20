@@ -276,76 +276,75 @@
           "self": "https://api.example.com/hotel-offers/OFFERDSK456"
         }
       ]
-    },
+    }, {
+  "type": "hotel-offers",
+  "hotel": {
+    "type": "hotel",
+    "hotelId": "DUBPALMGARDEN",
+    "chainCode": "DPG",
+    "name": "Dubai Palm Garden Resort",
+    "cityCode": "DXB",
+    "latitude": 25.204939,
+    "longitude": 55.270774
+  },
+  "available": true,
+  "offers": [
     {
-      "type": "hotel-offers",
-      "hotel": {
-        "type": "hotel",
-        "hotelId": "DUBPALMGARDEN",
-        "chainCode": "DPG",
-        "name": "Dubai Palm Garden Resort",
-        "cityCode": "DXB",
-        "latitude": 25.204939,
-        "longitude": 55.270774
+      "id": "OFFERDPG678",
+      "checkInDate": "2024-02-21",
+      "checkOutDate": "2024-02-22",
+      "rateCode": "RAC",
+      "rateFamilyEstimated": {
+        "code": "RAC",
+        "type": "RATE_TYPE"
       },
-      "available": true,
-      "offers": [
-        {
-          "id": "OFFERDPG678",
-          "checkInDate": "2024-02-21",
-          "checkOutDate": "2024-02-22",
-          "rateCode": "RAC",
-          "rateFamilyEstimated": {
-            "code": "RAC",
-            "type": "RATE_TYPE"
-          },
-          "room": {
-            "type": "BUNGALOW",
-            "typeEstimated": {
-              "category": "BEACHFRONT_BUNGALOW",
-              "beds": 1,
-              "bedType": "KING"
-            },
-            "description": {
-              "text": "Beachfront Bungalow with Private Patio, 1 King Bed",
-              "lang": "EN"
-            }
-          },
-          "guests": {
-            "adults": 2
-          },
-          "price": {
-            "currency": "AED",
-            "base": "1800.00",
-            "total": "1980.00",
-            "variations": {
-              "average": {
-                "base": "1800.00"
-              },
-              "changes": [
-                {
-                  "startDate": "2024-02-21",
-                  "endDate": "2024-02-22",
-                  "total": "1980.00"
-                }
-              ]
-            }
-          },
-          "policies": {
-            "cancellations": [
-              {
-                "description": {
-                  "text": "Non-refundable rate",
-                  "type": "NON_REFUNDABLE"
-                }
-              }
-            ],
-            "paymentType": "prepaid"
-          },
-          "self": "https://api.example.com/hotel-offers/OFFERDPG678"
+      "room": {
+        "type": "BUNGALOW",
+        "typeEstimated": {
+          "category": "BEACHFRONT_BUNGALOW",
+          "beds": 1,
+          "bedType": "KING"
+        },
+        "description": {
+          "text": "Beachfront Bungalow with Private Patio, 1 King Bed",
+          "lang": "EN"
         }
-      ]
+      },
+      "guests": {
+        "adults": 2
+      },
+      "price": {
+        "currency": "AED",
+        "base": "1800.00",
+        "total": "1980.00",
+        "variations": {
+          "average": {
+            "base": "1800.00"
+          },
+          "changes": [
+            {
+              "startDate": "2024-02-21",
+              "endDate": "2024-02-22",
+              "total": "1980.00"
+            }
+          ]
+        }
+      },
+      "policies": {
+        "cancellations": [
+          {
+            "description": {
+              "text": "Non-refundable rate",
+              "type": "NON_REFUNDABLE"
+            }
+          }
+        ],
+        "paymentType": "prepaid"
+      },
+      "self": "https://api.example.com/hotel-offers/OFFERDPG678"
     }
+  ]
+}
 
 
 
