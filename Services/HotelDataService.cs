@@ -136,24 +136,9 @@ namespace HotelComparer.Services
                     Offers = new List<HotelOffer>()
                 };
 
+                // Directly use the price as is, without conversion.
                 foreach (var offer in hotelData.Offers)
                 {
-                    if (responseObj.Dictionaries.CurrencyConversionLookupRates.TryGetValue(offer.Price.Currency, out var conversionInfo))
-                    {
-                        double conversionRate = Convert.ToDouble(conversionInfo.Rate);
-                        offer.Price.Base = ConvertPrice(offer.Price.Base, conversionRate);
-                        offer.Price.Total = ConvertPrice(offer.Price.Total, conversionRate);
-                        offer.Price.Variations.Average.Base = ConvertPrice(offer.Price.Variations.Average.Base, conversionRate);
-                        foreach (var change in offer.Price.Variations.Changes)
-                        {
-                            change.Total = ConvertPrice(change.Total, conversionRate);
-                        }
-                    }
-                    else
-                    {
-                        _logger.LogWarning($"Conversion rate for currency '{offer.Price.Currency}' not found. Skipping conversion.");
-                    }
-
                     hotelOfferData.Offers.Add(offer);
                 }
 
@@ -162,13 +147,5 @@ namespace HotelComparer.Services
 
             return hotelOfferDataList;
         }
-
-        private string ConvertPrice(string price, double rate)
-        {
-            return (Convert.ToDouble(price) * rate).ToString("F2");
-        }
     }
 }
-
-
-
