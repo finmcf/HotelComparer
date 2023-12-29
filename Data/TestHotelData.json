@@ -204,7 +204,7 @@
             "self": "https://api.example.com/hotel-offers/OFFERDS678"
           }
         ]
-      }
+      },
       {
         "type": "hotel-offers",
         "hotel": {
@@ -323,6 +323,10 @@
       }
     }
   },
+
+
+
+  //2nd date range from 2024-02-21 to 2024-02-23
 
 
 
@@ -604,5 +608,5 @@
 
 
 
-  
+
 ]

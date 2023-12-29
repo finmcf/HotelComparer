@@ -6,7 +6,6 @@ namespace HotelComparer.Models
 {
     public class HotelSearchRequest : IValidatableObject
     {
-        // Existing properties
         public List<string> HotelIds { get; set; }
         [Required]
         public DateTime? CheckInDate { get; set; }
@@ -47,10 +46,13 @@ namespace HotelComparer.Models
         // Validation logic
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            // Validation logic updated to include UseTestData
-            if (HotelIds.Count == 0 && !HasLatLng() && !(UseTestData.HasValue && UseTestData.Value))
+            // Updated validation logic
+            bool isUseTestDataValid = UseTestData.HasValue && UseTestData.Value;
+            bool isLocationDataValid = HotelIds.Count > 0 || HasLatLng();
+
+            if (!isUseTestDataValid && !isLocationDataValid)
             {
-                yield return new ValidationResult("Either a Hotel ID, both Latitude and Longitude, or the UseTestData flag is required.");
+                yield return new ValidationResult("Either 'Hotel ID' or 'Latitude and Longitude' must be provided, or 'UseTestData' must be true.");
             }
 
             // Additional custom validation logic can be added here
