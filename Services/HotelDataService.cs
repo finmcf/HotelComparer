@@ -56,13 +56,13 @@ namespace HotelComparer.Services
             var processedHotels = new List<HotelOfferData>();
             foreach (var hotelGroup in groupedHotelOffers)
             {
-                processedHotels.Add(ProcessHotelGroup(hotelGroup.Key, hotelGroup.Value, request.CheckInDate.Value, request.CheckOutDate.Value));
+                processedHotels.Add(ProcessHotelGroup(hotelGroup.Key, hotelGroup.Value, request.CheckInDate.Value, request.CheckOutDate.Value, request.Currency));
             }
 
             return processedHotels.Where(h => h != null).ToList();
         }
 
-        private HotelOfferData ProcessHotelGroup(string hotelId, List<HotelOffer> offers, DateTime checkInDate, DateTime checkOutDate)
+        private HotelOfferData ProcessHotelGroup(string hotelId, List<HotelOffer> offers, DateTime checkInDate, DateTime checkOutDate, string requestCurrency)
         {
             _logger.LogInformation($"Processing hotel group for {hotelId}");
 
@@ -74,6 +74,7 @@ namespace HotelComparer.Services
             }
 
             var cheapestCombination = validCombinations.OrderBy(c => c.TotalCost).First();
+            var cheapestBasePrice = cheapestCombination.Offers.Sum(o => Convert.ToDouble(o.Price.Base));
 
             var hotelInfo = allHotelsData.FirstOrDefault(h => h.Hotel.HotelId == hotelId)?.Hotel;
 
@@ -88,6 +89,8 @@ namespace HotelComparer.Services
                 Hotel = hotelInfo,
                 Offers = cheapestCombination.Offers,
                 CheapestCombination = cheapestCombination.TotalCost,
+                CheapestBasePrice = cheapestBasePrice, // Set the calculated cheapest base price
+                CheapestCombinationCurrency = requestCurrency, // Use currency from the search request
                 CheapestOfferIds = cheapestCombination.Offers.Select(o => o.Id).ToList(),
                 Self = cheapestCombination.Offers.First().Self
             };

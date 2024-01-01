@@ -8,7 +8,9 @@ namespace HotelComparer.Models
         public HotelInfo Hotel { get; set; }
         public List<HotelOffer> Offers { get; set; } = new List<HotelOffer>();
         public double CheapestCombination { get; set; }
-        public List<string> CheapestOfferIds { get; set; } = new List<string>();  // Added this property
+        public double CheapestBasePrice { get; set; } // Added to store the base price of the cheapest combination
+        public string CheapestCombinationCurrency { get; set; } // Added to store the currency of the cheapest combination
+        public List<string> CheapestOfferIds { get; set; } = new List<string>();
         public string Self { get; set; }
     }
 
