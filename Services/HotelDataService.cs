@@ -41,7 +41,7 @@ namespace HotelComparer.Services
             {
                 try
                 {
-                    var hotelsFromResponse = ExtractHotelsFromResponse(response);
+                    var hotelsFromResponse = ExtractHotelsFromResponse(response, request.Currency);
                     allHotelsData.AddRange(hotelsFromResponse);
                 }
                 catch (JsonException ex)
@@ -61,6 +61,7 @@ namespace HotelComparer.Services
 
             return processedHotels.Where(h => h != null).ToList();
         }
+
 
         private HotelOfferData ProcessHotelGroup(string hotelId, List<HotelOffer> offers, DateTime checkInDate, DateTime checkOutDate, string requestCurrency)
         {
@@ -125,7 +126,7 @@ namespace HotelComparer.Services
             }
         }
 
-        private IEnumerable<HotelOfferData> ExtractHotelsFromResponse(string jsonResponse)
+        private IEnumerable<HotelOfferData> ExtractHotelsFromResponse(string jsonResponse, string targetCurrency)
         {
             _logger.LogInformation("Extracting hotels from JSON response");
             var responseObj = JsonConvert.DeserializeObject<AmadeusApiResponse>(jsonResponse);
@@ -139,16 +140,47 @@ namespace HotelComparer.Services
                     Offers = new List<HotelOffer>()
                 };
 
-                // Directly use the price as is, without conversion.
                 foreach (var offer in hotelData.Offers)
                 {
+                    string offerCurrency = offer.Price.Currency;
+                    if (responseObj.Dictionaries?.CurrencyConversionLookupRates?.ContainsKey(offerCurrency) == true)
+                    {
+                        double conversionRate = Convert.ToDouble(responseObj.Dictionaries.CurrencyConversionLookupRates[offerCurrency].Rate);
+                        offer.Price.Base = ConvertPriceValue(offer.Price.Base, conversionRate);
+                        offer.Price.Total = ConvertPriceValue(offer.Price.Total, conversionRate);
+                        offer.Price.Currency = targetCurrency;
+
+                        if (offer.Price.Variations?.Changes != null)
+                        {
+                            foreach (var change in offer.Price.Variations.Changes)
+                            {
+                                change.Total = ConvertPriceValue(change.Total, conversionRate);
+                            }
+                        }
+                    }
                     hotelOfferData.Offers.Add(offer);
                 }
-
                 hotelOfferDataList.Add(hotelOfferData);
             }
-
             return hotelOfferDataList;
         }
+
+
+
+
+        private string ConvertPriceValue(string priceValue, double conversionRate)
+        {
+            if (double.TryParse(priceValue, out var numericValue))
+            {
+                _logger.LogInformation($"Converting price. Original: {priceValue}, Conversion Rate: {conversionRate}");
+                numericValue *= conversionRate;
+                var convertedPrice = numericValue.ToString("F2");
+                _logger.LogInformation($"Converted price: {convertedPrice}");
+                return convertedPrice;
+            }
+            return priceValue;
+        }
+
+
     }
 }
