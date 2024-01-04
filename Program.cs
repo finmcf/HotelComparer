@@ -34,6 +34,11 @@ builder.Services.AddScoped<IHotelDataService, HotelDataService>();
 builder.Services.AddScoped<IAmadeusAutocompleteService, AmadeusAutocompleteService>();
 builder.Services.AddScoped<IHereAutosuggestService, HereAutosuggestService>(); // Register HereAutosuggestService
 builder.Services.AddScoped<ICombinedResponsesService, CombinedResponsesService>(); // Register CombinedResponsesService
+builder.Services.AddSingleton<ICurrencyApiService, CurrencyApiService>();
+
+builder.Services.AddScoped<ICurrencyExchangeService, CurrencyExchangeService>();
+
+
 
 // Register TestHotelDataService
 builder.Services.AddScoped<TestHotelDataService>();
@@ -85,6 +90,7 @@ var app = builder.Build();
 // Resolve token services to start their background processes
 var amadeusTokenService = app.Services.GetRequiredService<IAmadeusApiTokenService>();
 var hereTokenService = app.Services.GetRequiredService<IHereApiTokenService>(); // Initializing HereApiTokenService
+var currencyApiService = app.Services.GetRequiredService<ICurrencyApiService>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
